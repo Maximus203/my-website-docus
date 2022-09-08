@@ -1,6 +1,6 @@
-#### Cours d'administration et supervision reseaux
+##### Cours d'administration et supervision reseaux
 
-***(18/08/2022)***
+## ***Presentation du cour theorique (18/08/2022)***
 
 :::tip	Important
 ## Quels sont les profils d'acces d'une machine windows a un reseaux ?
@@ -26,7 +26,7 @@ Pour ouvrir le firewall on tape firewall dans la barre de recherche de windows. 
 *	L: 192.168.5.245
 ?
 
-## On ne peut pas se prononcer tant qu'on a pas le masque reseau
+# On ne peut pas se prononcer tant qu'on a pas le masque reseau
 
 Avec comme information supplementaire le masque:
 - W: 192.168.3.97/21
@@ -48,7 +48,7 @@ iptables -A input -p icmp -j REJET
 
 ### Gestion des equipements que RADIO
 
-## Fonctionnement de l'environnement de travail (windows, linux)
+### Fonctionnement de l'environnement de travail (windows, linux)
 
 ## Fonctionnement des cartes reseaux
 
@@ -101,7 +101,7 @@ La premiere frequence est: 2,412 GHz
 
 :::info Information
 *	Port mirroring ( Le fait de copier toutes les trames envoyer sur les autres ports et les envoyer sur un autre port qui est port ou je veux placer une outils de supervision )
-*	Port forwarding
+*	Port forwarding ou port mapping est le nom donné à une technique de transfert de données d'un port d'un nœud vers un autre nœud. Essentiellement, les données sont interceptées et redirigées d'un ordinateur à un autre. La redirection de port est utilisée dans les scénarios où vous souhaitez accéder à un appareil en réseau ou à un service connecté à Internet à partir d'un emplacement distant.
 :::
 
 :::tip Contraste 
@@ -114,7 +114,7 @@ Port mirroring:
 
 :::
 
-# Pare-feu et filtrage sous linux
+## Pare-feu et filtrage sous linux
 
 Les deux outils qu'on va utiliser:
 *	iptables
@@ -160,7 +160,7 @@ systemctl mask/unmask <nom du service>
 Si on doit mettre en place un serveur de telephonie sur ip et qu'on utlise *Asterisk* et *FreeSwitch* on peut masquer un service pendant qu'on travaille sur l'autre et apres inverser pour qu'ils n'utilisent pas les memes ports.
 :::
 
-# Outils d'analyse de trames:
+## Outils d'analyse de trames:
 *	Wireshark
 *	Telnet
 
@@ -218,9 +218,9 @@ Pour savoir qui fait quoi sur la machine: `w`
 ![Interface de wireshark](./ad-00001.png)
 
 
-## I- Principes de mise ne place d'un service reseaux ***(25/08/2022)***
+### I- Principes de mise ne place d'un service reseaux ***(25/08/2022)***
 
-# 1- Comprendre l'interet du service
+## 1- Comprendre l'interet du service
 
 :::info Exemple
 *	Le service Telnet permet la connexion a distance
@@ -228,15 +228,15 @@ Pour savoir qui fait quoi sur la machine: `w`
 *	Le service SSH permet la connexion a distance securse
 :::
 
-# 2- Connaitre les entites du service
+## 2- Connaitre les entites du service
 
-# 3- Connaitre les protocoles du service
+## 3- Connaitre les protocoles du service
 
-# 4- Connaitre les differents types de messages echanges par les entites du service
+## 4- Connaitre les differents types de messages echanges par les entites du service
 
-# 5- Connaitre le format de chaque message
+## 5- Connaitre le format de chaque message
 
-# 6- Intallation selon le cas:
+## 6- Intallation selon le cas:
 
 *	Windows Server
 
@@ -266,14 +266,14 @@ Pour savoir qui fait quoi sur la machine: `w`
 	-- `apt update ; apt install <nom du logiciel>`
 :::
 
-# 7- Configuration selon:
+## 7- Configuration selon:
 
 *	Linux: Identifier les fichiers de configuration, identifier les parametres du service, parametrer et redemarrer le service.
 
 
 ### Pratique
 
-# 
+## Maitrise de l'environnement Linux 
 
 Pour qu'un utilisateur deja creer puisse utiliser la commande `sudo` il faut l'ajouter dans le groupe sudo avec la commande:
 ``` jsx title="bash"
@@ -307,15 +307,15 @@ Sous linux, un service peut etre autonome ou non autonome. Si un service est non
 On peut trouver tous les services confier on regarde le fichier: `/etc/inetd.cnf`
 :::
 
-# Telnet
+## Telnet
 
 Il n'est pas securise, il fonctionne en mode caractere.
 
-# SSH
+## SSH
 
 Il est securise
 
-# FTP
+## FTP
 
 Il fonctionnee en mode message
 
@@ -348,7 +348,7 @@ Confiner un utilisateur dans son repertoire personnel avec FTP (vsftpd)
 
 ## Installation et utilisation du client ftp filezilla
 
-*	sudo apt install filezilla
+*	`sudo apt install filezilla`
 *	Lancer filezilla
 
 :::info Conclusion
@@ -356,15 +356,15 @@ FTP n'est pas securise
 Le protocol FTP
 :::
 
-# Exercice
+## Exercice
 
 Creer un tunnel ssh pour y faire passer des messages les messages services non securises.
 
-# mysql
+## mysql
 
 :::info Paquets
-Client: mysql-client
-Serveur: mysql-server
+*	Client: mysql-client
+*	Serveur: mysql-server
 :::
 
 :::tip Fichier de configuration
@@ -375,7 +375,7 @@ Pour que notre service de base de donnees soit accessible par tous:
 *Parametre:* bind-address =	0.0.0.0
 
 Pour activer les logs:
-*Parametre* 
+*Parametres* 
 *	general\_log\_file        = /var/log/mysql/query.log
 *	general\_log             = 1
 
@@ -404,7 +404,7 @@ insert into etudiant(prenom, nom, note values("Cherif", "Diouf", "18"), ("Kahar"
 
 ```
 
-# Apache2
+## Apache2
 
 ``` jsx title="bash"
 sudo apt install apache2
@@ -446,6 +446,592 @@ Le ficher log c'est le:
 :::
 
 
+## Service de messagerie
+
+Il y a deux types de messageries:
+*	Mail
+*	I.M. ( Messagerie Instentannee )
+
+:::info Paquets service messagerie
+*	Openfire
+*	Prosody
+*	Jitsi-meet
+:::
+
+
+## Services de messagerie classique:
+
+
+:::tip Plan
+
+1)	Installation mysql-server
+*	Maitriser mysql-server
+	---Securiser l'acces a root selon un mot de passe bien defini---
+	---Differents plugins de gestion de mot de passe mysql---
+	---Mot de passe hache---
+
+2)	Installer les paquets postfix dovecot-pop3d dovecot-imappd roundcube roundcube-mysql
+	Configuration du webmail roundcube
+-	Cette config se fait en 2 etapes:
+	a) Hebergement du webmail en tant qu'application WEB: Decommenter la ligne `Alias /roundcube /var/lib/roundcube` Qui depends de notre version d'ubuntu.
+	Moi: `/var/lib/roundcube/config`
+	On redemarre le serveur apache2: 
+
+``` jsx title="bash"
+systemctl restart apache2
+```
+	b) Configuration de roundcube instant client de messagerie.
+:::
+
+
+
+## 1) Agents ( Composants ) de messagerie
+
+Il est essentiellement compose de 3 programmes appele _agent de messagerie_:
+-	MUA ( Mail User Agent ): Qui s'occupe de l'ecriture ou de la lecture de mail.
+
+:::info Exemple
+Thunderbird
+
+( On peut l'utiliser pour generer une paire de cle pour le chiffrement des messages )
+
+:::
+-	MTA ( Mail Transfer Agent ): Qui s'occupe de reception et d'envoie de mail venant des MUA ( clients )
+
+:::info Exemple
+
+Postfix, exim4
+
+:::
+
+-	MDA ( Mail Delivery Agent ): Qui s'occupe de la distrubution des mails dans les boites des users
+
+:::info Exemple
+
+Dovecot, cyrus-IMAP
+
+:::
+
+:::tip Un serveur de messagerie
+
+Serveur de messagerie = MTA + MDA
+
+:::
+
+## 2) Protocoles de messagerie ( SMTP, POP, IMAP, MIME )
+
+*	SMTP ( Simple Mail Tranfert Protocol ): 
+		Qui est utiliser par 1 client ( MUA ) pour envoyer des mails a son MTA ou utiliser par MTA pour envoyer des mails a un autre MTA.
+
+:::tip NB
+
+Le MTA est appele serveur SMTP
+
+:::
+
+*	POP ( Post Office Protocol ):
+		Qui permet a un client de telecharger sur sa machine les mails geres par le MDA.
+
+*	IMAP ( Internet Message Access Protocol ):
+		Qui pemet a un client d'acceder a ses mails sans les telecharger sur le post de l'utilisateur.
+
+*	MIME ( ):
+		Qui Permet d'attacher des fichiers a des mails
+
+:::tip Format de boite a lettre
+
+*       Format mailbox: 1 fichier contenant tous les mails de l'utilisateur
+*       Format maildir: On creer 1 dossier dans lequel 1 mail est 1 fichier
+
+:::
+
+## 3) Mise en oeuvre 
+
+:::danger Processus d'envoie de mail
+
+Insert l'image de 
+
+:::
+
+:::tip Paquets a installer
+
+*	`postfix` -> MTA
+*	`dovecot-pop3d` -> MDA
+*	`dovecot-imapd` -> MDA
+*	`roundcube` -> webmail
+*	`mysql -serveur` -> Base de donnees
+*	`roundcube-mysql` -> Connecteur roundcube & Base de donnees
+
+:::
+
+# 4.1) Installation et configuration du serveur
+
+``` jsx title="bash"
+
+sudo apt install postfix dovecot-pop3d dovecot-imapd roundcube roundcube-mysql
+
+```
+
+## Postfix
+
+:::info
+
+Fichier de configuration: `/etc/postfix/main.cf`
+
+:::
+
+On change les lignes:
+*	myorigin = estm.sn
+*	mydestination = estm.sn
+*	home_mailbox = Maildir/
+
+Apres on redemmarre postfix pour prendre en consideration les configurations:
+
+``` jsx title="bash"
+
+systemctl restart postfix
+
+```
+
+Ensuite on va parametre le MDA dans: `/etc/dovecot/conf.d/10-mail.conf`
+
+On mets en commentaire la ligne: `mail_location = mbox:~/mail:INBOX=/var/mail/%u`
+
+Et on decommente: `mail_location = maildir:~/Maildir`
+
+pres on redemmarre postfix pour prendre en consideration les configurations:
+
+``` jsx title="bash"
+
+systemctl restart dovecot
+
+```
+
+:::info Concernant apache
+
+Si un service utilise apache, il va dans le fichier de configuration de apache ( /etc/apache2/conf-available/ ) pour y creer son fichier de configuration.
+
+:::
+
+## Roundcube
+
+On va dans /etc/apache2/conf-available/roundcube.conf pour lui donner l'adresse du serveur. Pour ce faire on decommente la ligne:
+
+` Alias /roundcube /var/lib/roundcube `
+
+:::info Norme
+
+Il faut allez dans le dossier de config du service web et creer un fichier `config.\*\*\*`
+
+:::
+
+
+# 4.2) Configuration d'un client
+
+On precise l'adresse du serveur SMTP et le port d'ecoute
+
+:::danger Attention !
+
+Option: Certains serveurs SMTP exigent a des clients de s'authentifier avant d'envoyer de mail.
+
+Postfix lui par defaut ne l'exige pas mais roundcube Oui
+
+:::
+
+On mets `estm.sn` pour le parametre `` dans ``:
+
+Pour roundcube on peut le desactiver en enlevant le `%u` et le `%p`
+
+![Table roundcube](./ad-00008.png)
+
+
+# 4.3) Installer et configuration d'un webmail
+
+// SMTP username (if required) if you use %u as the username Roundcube
+// will use the current username for login
+$config['smtp_user'] = '';
+
+// SMTP password (if required) if you use %p as the password Roundcube
+// will use the current user's password for login
+$config['smtp_pass'] = '';
+
+# 4.4) Gerer les contacts des utilisatuers a partir d'une base de donnees
+
+:::tip 
+
+Notre table contact de la base de donnees mysql contient:
+
+![Table roundcube](./ad-00007.png)
+
+:::
+
+On peut inserer un contact directement dans mysql:
+
+``` jsx title="sql"
+mysql> insert into contacts (name, email, firstname, surname, user_id)
+ values("Abdoulaye Wade","abdou@estm.sn","Abdoulaye","Wade",2);
+
+```
+
+Pour la correspondance on mets des lignes de ce format:
+
+`adresse_ip nom_d_acces`
+
+
+:::tip Correspondance adresse ip nom
+*	Windows
+On edite le fichiers C:\Windows\System32\drivers\etc\host
+
+*	Linux
+On edite le fichiers /etc/hosts
+:::
+
+
+
+
+
+Nous creons une configuration de site virtuel par nom dans apache2:
+
+On va dans : `/etc/apache2/sites-available/`
+
+Ou on creer un fichier site1.conf
+
+``` jsx title="bash"
+<VirtualHost *:80>
+ServerName mail.estm.sn
+DocumentRoot /var/lib/roundcube/
+DirectoryIndex index.php
+</VirualHost>
+```
+
+
+:::tip Activation
+
+``` jsx title="bash"
+# Activation
+a2ensite site1.conf
+
+# On recharge la configuration d'apache
+systemctl reload apache2
+
+```
+:::
+
+
+:::tip Securiser mysql
+
+Apres l'installation de mysql on tape la commande:
+
+``` jsx title="bash"
+mysql_secure_installation
+```
+
+:::
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+### ***01/09/2022***
+
+### Objectif:
+
+### 1- Services avances de messagerie
+
+## 1.1: Mettre en place une liste de diffusion
+
+# Principe:
+
+On envoie un mail a un abonnee et le mail est duplique vers 
+
+On edite le fichier `/etc/aliases`
+
+:::tip Format d'edition
+
+`Nom-liste: email1 email2 email3`
+:::
+
+Apres on fait
+
+``` jsx title="bash"
+
+newaliases
+
+```
+Pour prendre en compte les nouveaux groupes de diffusion creer.
+
+## 1.2: Redirection de mail
+
+# Principe:
+
+Tout mail envoye a toto soit rediriger vers bouki
+
+:::tip Augmenter la taille des pieces jointes
+
+`/etc/php/7.4/apache2/php.ini `
+
+On edite la ligne: `max_file_uploads = 20`
+
+![Augemnter la taille](./ad-00006.png)
+
+:::
+
+## 1.3: Repondeur automatique ( personnel )
+
+# Principe:
+
+Quand on envoie un message a bouki, un message automatique est renvoyer a l'expediteur.
+
+:::tip Outils
+
+C'est un logiciel qui permet de faire repondeur automatique:
+
+`vacation`
+
+Installation: 
+
+``` jsx title="bash"
+
+# apt install vacation
+
+```
+
+:::
+
+Chaque utilisateur desirant avoir un repondeur automatique devra: 
+-	Se connecter
+-	Tapper:
+
+``` jsx title="bash"
+
+$ vacation
+
+```
+-	Personnaliser le message
+
+
+***(07/09/2022)***
+
+### Inserer un fichier csv dans une base de donnees mysql
+
+On affiche le parametre global:
+
+SHOW GLOBAL VARIABLES LIKE `'local_infile'`;
+
+Si sa valeur est 'OFF' on le change pour pouvoir charger des fichiers dans mysql.
+
+``` jsx title="mysql"
+SET GLOBAL local_infile = 1;
+```
+
+`/etc/mysql/mysql.conf.d/mysqld.cnf`
+On ajoute la ligne
+secure-file-priv = ''
+
+![](./ad-00009.png)
+
+On creer un fichier csv: `fiche1` avec comme contenue:
+
+``` jsx title="csv"
+Macky,Sall,13
+Ousmane,Sonko,14
+Abdoulaye,Wade,17
+Abdoulaye,Bathily,15,5
+```
+
+On le copie dans `/var/lib/mysql/`
+
+``` jsx title="csv"
+
+cp fiche1 /var/lib/mysql
+
+```
+Apres cela on mets les commandes en mysql pour charger le fichier dans la base de donnees:
+
+``` jsx title="sql"
+
+load data local infile './fiche1' into table etudiant fields terminated by ',' (prenom, nom, note);
+
+```
+
+
+### Application:
+
+*	Liste d'etudiants dans un fichier excel contenant les numeros de telephones
+*	Mettre un systeme telephonique ou une autorite va enregistrer
+*	A un moment voulu, le systeme appelle tous les etudiants et des qu'un etudiant decroche on lui livre le message
+
+:::tip Client SIP
+
+*	MicroSIP
+*	Blink
+
+:::
+
+Avec un script php on peut faire un script pour se connecter a un serveur de telephone et un autre pour recuperer les numeros dans la base de donnees.
+
+### Planification des taches (at, cron, crontab)
+
+## at
+
+Il permet d'executer des taches a une date donnee.
+
+On installe la commande:
+
+``` jsx title="bash"
+
+# apt install at
+
+```
+
+On peut planifier a 20:29 la creation d'un fichier:
+
+``` jsx title="bash"
+
+# at 20:29 touch fiche1
+
+```
+
+## crontab
+
+Il permet de planifier des taches routinieres
+
+
+:::danger
+Pour qu'un programme en php puisse se connecter a une base de donnees, il faut installer le paquet:
+``` jsx title="bash"
+
+# apt install php-mysql
+
+```
+Et pour utiliser php en ligne de commande on installer:
+
+``` jsx title="bash"
+
+# apt install php.cli
+
+```
+
+:::
+
+Pour que php se connecte a une base de donnees:
+
+``` jsx title="php"
+
+<?php
+	$conn = mysqli_connect("localhost", "bouki", "P@sser123", "ecole");
+	$req = "INSERT INTO etudiant(nom, prenom) VALUES ("Diouf", "Cherif"), ("Diouf", "Aicha");
+
+	$result = mysqli_query($conn, $req);
+	mysql_close($conn);
+?>
+
+```
+
+:::info mysqli
+
+`mysqli` est une version ameliorer de mysql
+
+:::
+
+
+***08/09/2022***
+
+### Approfondir le service WEB
+
+Cela a travers le concept de CGI ( Common Gateway Interface ) permettant d'executer n'importe quel programme externe (C, python, ...)
+
+
+A faire:
+*       Ecrire des programmes en python se connectant a une base de donnees
+*       Preparation de l'environnement de developpement
+
+:::tip Installation
+
+On aura besoin de ces paquets: `python3 mysql-server python-mysqldb `
+
+``` jsx title="bash"
+apt install python3 python-mysql-db mysql-server
+```
+
+:::
+
+
+Afficher les utilisateurs de mysql
+
+``` jsx title="sql"
+
+SELECT User, Host FROM mysql.user;
+
+```
+
+:::tip CGI
+
+Les CGI se trouve dans: `/usr/lib/cig-bin/`
+
+:::
+
+## Methode a suivre pour ecrire une application python de connection a mysql
+#	1- Preparer la requete dans une variable.
+#	2- Se connecter a la base.
+#	3- Executer la requete.
+#	4- Eventuellement recuperer les resultats pour exploitation
+
+
+
+On creer notre script python `crud.py`
+
+
+``` jsx title="python"
+  
+#!/usr/bin/python3
+
+import MySQLdb
+
+def database():
+    global conn, curseur
+    conn = MySQLdb.connect(user="toto", passwd="passer", db="banque")
+    curseur = conn.cursor()
+    return conn, curseur
+
+def inserer(prenom, nom, numcompte, code, montant):
+    req = "INSERT INTO client (prenom, nom, numcompte, code, montant) values(%s, %s, %s, %s, %s)"
+    database()
+    val = (prenom, nom, numcompte, code, montant)
+    curseur.execute(req, val)
+    conn.commit()
+    print("Insertion reussie")
+
+
+inserer("Alex", "Kabe", "1001", "1111", "50000")
+
+```
+# Resultat
+
+Nous voyons que le script a reussi a executer la requete:
+
+![](./ad-00010.png)
 
 
 
