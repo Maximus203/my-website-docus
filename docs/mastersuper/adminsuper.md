@@ -1034,11 +1034,331 @@ Nous voyons que le script a reussi a executer la requete:
 ![](./ad-00010.png)
 
 
+## CGI
+
+Pour faire du CGI il faut activer le CGI: 
+
+``` jsx title="bash"
+
+a2enmod cgid
+
+```
+
+
+et on redemarre le serveur web:
+
+``` jsx title="bash"
+
+systemctl restart apache2
+
+```
+
+Il faut trouver le dossier dans le quel on va mettre le script:
+On peut verifier le fichier: `/etc/apache2/conf-available/serve-cgi-bin.conf`
+
+``` jsx title="bash"
+
+cat /etc/apache2/conf-available/serve-cgi-bin.conf
+
+```
+
+On peut voir a son contenue: 
+
+``` jsx title="bash"
+
+<IfModule mod_alias.c>
+	<IfModule mod_cgi.c>
+		Define ENABLE_USR_LIB_CGI_BIN
+	</IfModule>
+
+	<IfModule mod_cgid.c>
+		Define ENABLE_USR_LIB_CGI_BIN
+	</IfModule>
+
+	<IfDefine ENABLE_USR_LIB_CGI_BIN>
+		ScriptAlias /cgi-bin/ /usr/lib/cgi-bin/
+		<Directory "/usr/lib/cgi-bin">
+			AllowOverride None
+			Options +ExecCGI -MultiViews +SymLinksIfOwnerMatch
+			Require all granted
+		</Directory>
+	</IfDefine>
+</IfModule>
+
+```
 
 
 
+:::danger Attention
+
+En HTTP il est obligatoire de laisser une vide entre l'entete et le corps
+
+:::
+
+On creer un script python que l'on rend executable qui permet d'afficher du text sur le navigateur:
+
+``` jsx title="python"
+
+#!/usr/bin/python3
+
+print('Content-Type:text/plain')
+print() # En HTTP il est obligatoire de laisser une vide entre l'entete et le corps
+print("Les noirs 2.0 respectent maintenant les regles ! Bravo a eux")
 
 
+```
+
+### Resume
+
+### Etudie les reseaux
+
+*	Etude des equipements
+*	Etude des logiciels
+
+### Logiciels:
+##	Utiliser les emulateurs tel que GNS3 pour la maitrise du fonctionnement des equipements tels routeurs, switches, firewall.
+##	L'utilisation des plateforme de virtualisation (VMWare et Virtualbox) permet de mettre en oeuvre des concepts qu'on trouve tous les jours en entreprise
+
+:::tip Exemple
+
+* Redirection de ports
+* Mode promisc
+* Supervision necessite
+* NAT
+* Carte en mode promisc
+* Le port mirroring et le port forwarding
+
+:::
+
+## SGBD
+
+*	Journalisation
+*	Commit
+*	Chargement de donnees a partir de fichier
+
+## Serveur web
+
+*	Journal (error.log)
+*	Modules (cgid)
+*	Sites virtuels par nom
+
+## Connexion a distance & tranfere de fichiers
+
+*	SSH
+*	Telnet
+*	SCP
+*	WinSCP
+*	Firezilla
+*	vsftpd
+*	Securite de transaction ( Mode texte *Telnet* & Mode message *SSH* )
+
+## Developpement
+
+*	Python ( Combiner avec une base de donnees )
+*	PHP ( Combiner avec une base de donnees )
+
+## Administration
+
+*	Gestion des fautes
+*	Gestion des configurations
+
+:::tip Exemple
+
+*	Mettre en place un serveur TFTP
+*	Configurer un routeur
+*	Sauvegarder la configuration du routeur
+*	Simuler une panne, remplacer le routeur
+*	restaurer la configuration
+
+:::
+
+*	Gestion de l'utilisation
+*	Gestion de la performance
+
+:::info Performance
+
+On install l'outil lm-sensors:
+
+``` jsx title="bash"
+
+sudo apt-get install lm-sensors
+
+```
+
+Et on affiche la temperature avec:
+
+``` jsx title="bash"
+
+sudo sensors-detect
+
+```
+
+:::
+
+*	Gestion de la securite
+
+### Supervision ( adhoc & SNMP )
+
+## Methode adhoc
+
+
+
+## Protocole SNMP
+
+### Equipements
+
+## GNS#
+
+On installe GNS3
+
+``` jsx title="bash"
+
+sudo add-apt-repository ppa:gns3/ppa
+sudo apt update                                
+sudo apt install gns3-gui gns3-server
+
+```
+
+On peut telecharger l'OS d'un router sur ce site:
+
+[](http://tfr.org/cisco/37xx/3745/)
+
+
+:::info Remarque
+
+Si on met un module sur le Slot 1 tous les interfaces de ce module commence par le chiffre 1
+
+:::
+
+Sur le commutateur pour activer le port mirroring:
+
+``` jsx title="cisco"
+
+R1(config)#monitor session 1 source interface f1/0 both 
+R1(config)#monitor session 1 source interface f1/2 both 
+R1(config)#monitor session 1 destination interface f1/1
+
+```
+
+Un switch a 4 memoires: NVRAM, Flash, ...
+
+Si on mets une nouvelle memoire on doit la formater avec 
+
+``` jsx title="cisco"
+
+erase flash
+
+```
+
+GNS3 est un logiciel ...
+
+:::danger
+
+Un vlan est un domaine de diffusion, deux PCs n'appartenant pas a un meme vlan ne peuvent pas se joindre par PING.
+
+:::
+
+
+Ca ne marche pas. Parce que les messages ARP de diffusion ne rejoignent pas l'autre machine ...
+
+
+
+### ***(22/09/2022)***
+### TP gestion de la sécurité
+L’objectif de ce TP est d’utiliser les outils pour mettre en œuvre la gestion de la
+securité dans le contexte d’un cours d’administration réseaux.
+On s’appuiera sur les techniques de filtrage des firewall et des outils tels que :
+iptables, fail2ban,portsentry,ufw,rkhunter
+
+
+
+## Fail2ban
+
+:::tip Utilisation
+
+Fail2ban est utilise pour generer des regles de securite pour bannir un utilisateur qui tente d'accepter a un service apres plusieurs tentatives.
+
+:::
+
+``` jsx title="bash"
+
+apt-get install fail2ban portsentry
+
+```
+
+On edite le fichier `/etc/fail2ban/jail.local`
+
+Et pour surveille ssh et ftp on met:
+
+``` jsx title="bash"
+
+[sshd]
+enabled = true
+port = 22
+filter = sshd
+logpath = /var/log/auth.log
+maxretry = 3
+
+[vsftpd]
+enabled = true
+port = ftp,ftp-data
+filter = vsftpd
+logpath = %(vsftpd_log)s
+maxretry = 3
+
+```
+
+:::info Arreter un processus
+
+Sans utiliser `systemctl` ni `service`:
+
+``` jsx title="bash"
+
+killall vsftpd
+
+```
+
+:::
+
+
+## Portsentry
+
+:::tip Utilisation
+
+Portsentry peut etre utiliser dans le cas ou un attaquant tente de scanner les ports ouvert sur notre machine.
+
+:::
+
+
+:::danger VMware & Virtual box
+
+*	Comment est-ce qu'on allege les regles de securite sur VMware et virtual box
+
+:::
+
+
+:::tip Bonus
+
+*       Comment generer et lire des codes QR
+*       Comment detecter un objet sur une camera
+*       IA
+
+:::
+
+On install
+
+``` jsx title="bash"
+
+apt install qrencode
+
+```
+On peut l'utiliser pour cacher un message dans une images:
+
+``` jsx title="bash"\
+
+qrencode -0 image.png "Ceci est un secret"
+
+```
 
 
 

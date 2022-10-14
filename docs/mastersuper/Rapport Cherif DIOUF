@@ -1,0 +1,654 @@
+<h5 id="cours-dadministration-et-supervision-reseaux">Cours d’administration et supervision reseaux</h5>
+<h2 id="presentation-du-cour-theorique-18082022"><strong><em>Presentation du cour theorique (18/08/2022)</em></strong></h2>
+<p>:::tip Important ## Quels sont les profils d’acces d’une machine windows a un reseaux ?</p>
+<ul>
+<li>** Public: ** Partages desactives, ping bloque</li>
+<li>** Prive: ** Partages actives</li>
+<li>** Domaine: ** Les regles de securites sont gerer au niveau du controleur de domaine :::</li>
+</ul>
+<p>L’outil loupe est utiliser pour zoomer sont ecran.</p>
+<p>:::info Information Pour ouvrir le firewall on tape firewall dans la barre de recherche de windows. Cela nous permet aussi de voir les profils d’acces. :::</p>
+<h2 id="comment-autoriser-a-travers-un-parefeu-une-application-windows">Comment autoriser a travers un parefeu une application windows ?</h2>
+<h1 id="dans-le-parefeu-windows-la-fenetre-a-gauche-nous-pouvons-autoriser-une-application.">Dans le parefeu windows la fenetre a gauche nous pouvons autoriser une application.</h1>
+<h2 id="est-ce-que-ces-deux-machines-sont-dans-le-meme-reseaux">Est-ce que ces deux machines sont dans le meme reseaux:</h2>
+<ul>
+<li>W: 192.168.3.97</li>
+<li>L: 192.168.5.245 ?</li>
+</ul>
+<h1 id="on-ne-peut-pas-se-prononcer-tant-quon-a-pas-le-masque-reseau">On ne peut pas se prononcer tant qu’on a pas le masque reseau</h1>
+<p>Avec comme information supplementaire le masque: - W: 192.168.3.97/21 - L: 192.168.5.245/21</p>
+<p>On fait le calcule binaire de l’application des addresses au masque reseau et on trouve qu’ils sont dans le meme reseau.</p>
+<h2 id="interdire-le-ping-sur-linux">Interdire le ping sur linux</h2>
+<p>On passe en mode super utilisateur</p>
+<p>Ensuite on execute la commande:</p>
+<p><code>jsx title="bash" iptables -A input -p icmp -j REJET</code></p>
+<h3 id="que-faut-il-maitriser-dans-le-cadre-de-ce-cour-24082022"><strong><em>Que faut-il maitriser dans le cadre de ce cour ? ( 24/08/2022 )</em></strong></h3>
+<h3 id="gestion-des-equipements-que-radio">Gestion des equipements que RADIO</h3>
+<h3 id="fonctionnement-de-lenvironnement-de-travail-windows-linux">Fonctionnement de l’environnement de travail (windows, linux)</h3>
+<h2 id="fonctionnement-des-cartes-reseaux">Fonctionnement des cartes reseaux</h2>
+<h1 id="mode-promiscuite">Mode promiscuite:</h1>
+<p>Il permet a une carte reseaux d’accepter toutes les trames qui lui sont envoyer</p>
+<h1 id="machine-virtuelle">Machine virtuelle:</h1>
+<p>Pour permettre a notre machine virtuelle d’etre dans le meme reseaux que</p>
+<h1 id="net-tools">net-tools</h1>
+<p><code>jsx title="bash" ifconfig</code> Permet de voir nos cartes reseaux</p>
+<p><code>jsx title="bash" iwconfig</code> Permet de voir les cartes Wi-Fi</p>
+<p><code>jsx title="bash"  iwlist &lt;nom de la carte&gt;</code> Permet de lister les canaux supporter par la machine</p>
+<p>:::info Information Une bande de frequence a ete laisse pour les gens qui fabriquent des equipements pour les industries les scientifiques et pour le medical. Cette bande s’appelle ISM. ISM: Industrie Scientifique Medical ( 2 bandes ISM: 2,4 GHz et 5 GHz ) :::</p>
+<p><code>jsx title="bash" iwlist &lt;nom de la carte&gt; scan</code> Pour afficher les Wi-Fi disponible et les informations dessus.</p>
+<p>Si Mode == “Master” (Insfrastrure) alors ce reseau est un point d’acces</p>
+<p>Si Mode == "" (Point a point) alors ce reseau est un point a point</p>
+<p>:::info Information En Wi-Fi une frequence occupe 11MHz a gauche et 11MHz a droite donc il est conseiller d’utiliser une ecart de 5 unites ( MHz ) lorsque deux finis sont proches. La premiere frequence est: 2,412 GHz <strong><em>La formule pour calculer la frequence de la ieme canal: fi = f1 + (i-1) </em> 0,005</strong>* :::</p>
+<h2 id="le-fonctionnement-dun-switch">Le fonctionnement d’un switch:</h2>
+<ul>
+<li>table de commutation</li>
+<li>Algo de reception de trames pour un switch</li>
+</ul>
+<p>:::info Information * Port mirroring ( Le fait de copier toutes les trames envoyer sur les autres ports et les envoyer sur un autre port qui est port ou je veux placer une outils de supervision ) * Port forwarding ou port mapping est le nom donné à une technique de transfert de données d’un port d’un nœud vers un autre nœud. Essentiellement, les données sont interceptées et redirigées d’un ordinateur à un autre. La redirection de port est utilisée dans les scénarios où vous souhaitez accéder à un appareil en réseau ou à un service connecté à Internet à partir d’un emplacement distant. :::</p>
+<p>:::tip Contraste</p>
+<p><strong><em>Lien entre les concepts entre le fonctionnement de la carte reseaux et les concepts de port mirroring et port Forwarding</em></strong></p>
+<p>Promiscuite: La trame va accepter toutes les trames memes celle qui ne lui sont psa desiner</p>
+<p>Port mirroring:</p>
+<p>:::</p>
+<h2 id="pare-feu-et-filtrage-sous-linux">Pare-feu et filtrage sous linux</h2>
+<p>Les deux outils qu’on va utiliser: * iptables * ufw</p>
+<p>Pour lister les regles de securite <code>iptable -L</code></p>
+<p>:::tip Important Le noyau du SE fabrique les datagrammes ip. Lorsqu’un routeur recoit une datagramme ip il diminue le champt <em>TTL</em> d’une unite. Lorsque ce champs atteint zero ce datagramme est detruit. :::</p>
+<p>Ajouter une regle qui bloquer tous les ping: <code>jsx title="bash" iptables -A INPUT -p icmp -j REJET</code></p>
+<p>Supprimer toutes les regles: <code>jsx title="bash" iptables -F</code></p>
+<p>Ajouter une regler qui bloque tous les ping sauf pour une machine: <code>jsx title="bash" iptables -A INPUT -p icmp ! -S 192.168.7.25 -j REJET</code></p>
+<p>Pour afficher l’etat du service ufw: <code>jsx title="bash" systemctl status &lt;nom du service&gt;</code></p>
+<p>Pour activer ou desactiver une service: <code>jsx title="bash" systemctl enable/disable &lt;nom du service&gt;</code></p>
+<p>Pour masquer une service: <code>jsx title="bash" systemctl mask/unmask &lt;nom du service&gt;</code></p>
+<p>:::tip Cas d’utilisation de <code>mask/unmask</code> Si on doit mettre en place un serveur de telephonie sur ip et qu’on utlise <em>Asterisk</em> et <em>FreeSwitch</em> on peut masquer un service pendant qu’on travaille sur l’autre et apres inverser pour qu’ils n’utilisent pas les memes ports. :::</p>
+<h2 id="outils-danalyse-de-trames">Outils d’analyse de trames:</h2>
+<ul>
+<li>Wireshark</li>
+<li>Telnet</li>
+</ul>
+<p>:::tip Installation * Wireshark <code>sudo apt install wireshark</code></p>
+<ul>
+<li>Telnet <code>sudo apt install telnetd</code> :::</li>
+</ul>
+<p>:::info Information Sous linux le “d” a la fin du nom d’un paquet signifie que c’est un paquet serveur. Il existe aussi son omologue sans le “d” qui signifie que c’est le paquet client. :::</p>
+<p>:::info Information La commande: <code>apt policy &lt;nom du paquet&gt;</code> est utiliser pour savoir si le paquet est installer. :::</p>
+<p>Pour afficher les connexions réseau, les tables de routage, les statistiques des interfaces, les connexions masquées, les messages netlink, et les membres multicast. On filtre les avec les lignes contenant “23” ( Port de telnet ) <code>jsx title="bash" netstat -anp | grep -w 23</code></p>
+<p>:::tip Pour qu’un client puisse acceder a un service * Adresse IP du serveur * Port de serveur * Potrocole de transport :::</p>
+<p>:::danger Important ! * Si un protocole utlise udp, c’est qu’il n’est pas sensible au erreur. * Si un protocole utilise tcp, c’est qu’il est sensible au erreur. :::</p>
+<p>Pour installer le serveur ssh: <code>jsx title="bash" sudo apt install openssh-server</code></p>
+<p>Pour se connecter avec ssh sur une machine: <code>jsx title="bash" ssh &lt;nom d'utilisateur&gt;@&lt;adresse de la machine&gt;</code></p>
+<p>:::tip Important Pour savoir qui est connecter sur la machine: <code>who</code></p>
+<p>Pour savoir qui fait quoi sur la machine: <code>w</code> :::</p>
+<p><strong>Wireshark</strong></p>
+<figure>
+<img src="./ad-00001.png" alt="Interface de wireshark" /><figcaption>Interface de wireshark</figcaption>
+</figure>
+<h3 id="i--principes-de-mise-ne-place-dun-service-reseaux-25082022">I- Principes de mise ne place d’un service reseaux <strong><em>(25/08/2022)</em></strong></h3>
+<h2 id="comprendre-linteret-du-service">1- Comprendre l’interet du service</h2>
+<p>:::info Exemple * Le service Telnet permet la connexion a distance</p>
+<ul>
+<li>Le service SSH permet la connexion a distance securse :::</li>
+</ul>
+<h2 id="connaitre-les-entites-du-service">2- Connaitre les entites du service</h2>
+<h2 id="connaitre-les-protocoles-du-service">3- Connaitre les protocoles du service</h2>
+<h2 id="connaitre-les-differents-types-de-messages-echanges-par-les-entites-du-service">4- Connaitre les differents types de messages echanges par les entites du service</h2>
+<h2 id="connaitre-le-format-de-chaque-message">5- Connaitre le format de chaque message</h2>
+<h2 id="intallation-selon-le-cas">6- Intallation selon le cas:</h2>
+<ul>
+<li>Windows Server</li>
+</ul>
+<p>:::info Que faire ?</p>
+<ul>
+<li>On active: le service</li>
+<li>On parametre graphiquement (Connaitre les principaux parametres du service et leur signification)</li>
+<li>Apprendre a utiliser le service</li>
+</ul>
+<p>:::</p>
+<ul>
+<li>Linux</li>
+</ul>
+<p>:::info Que faire ?</p>
+<ul>
+<li>Connaitre les noms des paquets a installer</li>
+<li>On installe les paquets(*)</li>
+</ul>
+<p><strong><em>3 grandes methodes:</em></strong></p>
+<ul>
+<li>M1: Le paquet est connu par la distribution</li>
+<li>M2: Le paquet est archive</li>
+<li>M3: – Installation de la cle du logiciel; – Installer le lien de telechargement du logiciel – <code>apt update ; apt install &lt;nom du logiciel&gt;</code> :::</li>
+</ul>
+<h2 id="configuration-selon">7- Configuration selon:</h2>
+<ul>
+<li>Linux: Identifier les fichiers de configuration, identifier les parametres du service, parametrer et redemarrer le service.</li>
+</ul>
+<h3 id="pratique">Pratique</h3>
+<h2 id="maitrise-de-lenvironnement-linux">Maitrise de l’environnement Linux</h2>
+<p>Pour qu’un utilisateur deja creer puisse utiliser la commande <code>sudo</code> il faut l’ajouter dans le groupe sudo avec la commande: <code>jsx title="bash" gpasswd -a &lt;nom d'utilisateur&gt; sudo</code></p>
+<p>Pour supprimer un utilisateur d’un groupe on fait:</p>
+<p><code>jsx title="bash" gpasswd -d &lt;nom d'utilisateur&gt; &lt;nom du groupe&gt;</code></p>
+<p>Pour nommer un utiilisateur administrateur d’un groupe: <code>jsx title="bash" gpasswd -A &lt;nom d'utilisateur&gt; sudo</code></p>
+<h2 id="analyse-des-trames">Analyse des trames</h2>
+<ul>
+<li>Se familialiser avec l’encapsulation</li>
+<li>Sensibiliser les apprenants sur les problemes de securite de certaines applications</li>
+<li>Se familialiser avec certains services reseaux (Telnet, SSH, mysql, FTP, messagerie, DNS, DHCP, TFTP, LDAP, …)</li>
+</ul>
+<p>:::info Remarque !</p>
+<p>Sous linux, un service peut etre autonome ou non autonome. Si un service est non-autonome il est gerer par le super deamon<code>init</code></p>
+<p>:::</p>
+<p>:::tip Important On peut trouver tous les services confier on regarde le fichier: <code>/etc/inetd.cnf</code> :::</p>
+<h2 id="telnet">Telnet</h2>
+<p>Il n’est pas securise, il fonctionne en mode caractere.</p>
+<h2 id="ssh">SSH</h2>
+<p>Il est securise</p>
+<h2 id="ftp">FTP</h2>
+<p>Il fonctionnee en mode message</p>
+<p>:::tip Clients filezilla &amp; winscp :::</p>
+<p>:::info Information On se pose deux questions: * Autoriser les utilisateurs anonymes a se connecter ? * Faut-il autoriser les utilisateurs ayant un compte a se connecter ? * Faut-il bloquer l’utilisateur dans son dossier personnel ? :::</p>
+<p>Le fichier de configuration du serveur: <code>/etc/vsftpd.conf</code></p>
+<p>:::danger Parametres</p>
+<p><code>jsx title="bash" anonymous\_enable=NO local\_enable=YES write\_enable=YES #chroot\_local\_user=YES</code> :::</p>
+<h2 id="exercice">Exercice:</h2>
+<p>Confiner un utilisateur dans son repertoire personnel avec FTP (vsftpd)</p>
+<h2 id="installation-et-utilisation-du-client-ftp-filezilla">Installation et utilisation du client ftp filezilla</h2>
+<ul>
+<li><code>sudo apt install filezilla</code></li>
+<li>Lancer filezilla</li>
+</ul>
+<p>:::info Conclusion FTP n’est pas securise Le protocol FTP :::</p>
+<h2 id="exercice-1">Exercice</h2>
+<p>Creer un tunnel ssh pour y faire passer des messages les messages services non securises.</p>
+<h2 id="mysql">mysql</h2>
+<p>:::info Paquets * Client: mysql-client * Serveur: mysql-server :::</p>
+<p>:::tip Fichier de configuration <code>/etc/mysql/mysql.conf.d/mysqld.cnf</code> :::</p>
+<p>Pour que notre service de base de donnees soit accessible par tous: <em>Parametre:</em> bind-address = 0.0.0.0</p>
+<p>Pour activer les logs: <em>Parametres</em> * general_log_file = /var/log/mysql/query.log * general_log = 1</p>
+<p>:::tip Commandes ``` jsx title=“mysql” show databases; create database master; create user bobo identified by “P@sser123”;</p>
+<p>grant all privileges on master.* to bobo; flush privileges; ``` :::</p>
+<p>Pour voir les logs, nous fesons un tail sur le fichier: <code>/var/log/mysql/mysql-bin.log</code></p>
+<p>On peut faire</p>
+<p>``` jsx title=“mysql” create table etudiant(id int primary key AUTO_INCREMENT, prenom varchar(30), nom varchar(30), note varchar(30));</p>
+<p>insert into etudiant(prenom, nom, note values(“Cherif”, “Diouf”, “18”), (“Kahar”, “Idrissou”, “18”);</p>
+<p>```</p>
+<h2 id="apache2">Apache2</h2>
+<p><code>jsx title="bash" sudo apt install apache2</code></p>
+<p>:::tip Dossier site <code>/var/www/html/</code> :::</p>
+<p>On creer un fichier /var/www/html/test/bonjour.php avec le contenue: ``` jsx title=“php”</p>
+<?php 
+    echo "Bonjour les amis";
+    echo "<br>" // On fait semblant de faire une erreur au niveau de cette ligne
+    echo "Bonjour de nouveau";
+?>
+<p>```</p>
+<p>:::danger Important !</p>
+<p>Pour qu’apache puisse afficher du php il faut installer le module: <code>libapache2-mod-php</code></p>
+<p>:::</p>
+<p>:::info Logs d’apache2</p>
+<p>Le ficher log c’est le: <code>/var/log/apache2/error.log</code></p>
+<p>:::</p>
+<p>:::tip Logs Pour regarder les fichiers de log on utilise tail -f suivis du nom du fichier pour voir la fin :::</p>
+<h2 id="service-de-messagerie">Service de messagerie</h2>
+<p>Il y a deux types de messageries: * Mail * I.M. ( Messagerie Instentannee )</p>
+<p>:::info Paquets service messagerie * Openfire * Prosody * Jitsi-meet :::</p>
+<h2 id="services-de-messagerie-classique">Services de messagerie classique:</h2>
+<p>:::tip Plan</p>
+<ol type="1">
+<li>Installation mysql-server</li>
+</ol>
+<ul>
+<li>Maitriser mysql-server —Securiser l’acces a root selon un mot de passe bien defini— —Differents plugins de gestion de mot de passe mysql— —Mot de passe hache—</li>
+</ul>
+<ol start="2" type="1">
+<li>Installer les paquets postfix dovecot-pop3d dovecot-imappd roundcube roundcube-mysql Configuration du webmail roundcube</li>
+</ol>
+<ul>
+<li>Cette config se fait en 2 etapes:
+<ol type="a">
+<li>Hebergement du webmail en tant qu’application WEB: Decommenter la ligne <code>Alias /roundcube /var/lib/roundcube</code> Qui depends de notre version d’ubuntu. Moi: <code>/var/lib/roundcube/config</code> On redemarre le serveur apache2:</li>
+</ol></li>
+</ul>
+<p><code>jsx title="bash" systemctl restart apache2</code> b) Configuration de roundcube instant client de messagerie. :::</p>
+<h2 id="agents-composants-de-messagerie">1) Agents ( Composants ) de messagerie</h2>
+<p>Il est essentiellement compose de 3 programmes appele <em>agent de messagerie</em>: - MUA ( Mail User Agent ): Qui s’occupe de l’ecriture ou de la lecture de mail.</p>
+<p>:::info Exemple Thunderbird</p>
+<p>( On peut l’utiliser pour generer une paire de cle pour le chiffrement des messages )</p>
+<p>::: - MTA ( Mail Transfer Agent ): Qui s’occupe de reception et d’envoie de mail venant des MUA ( clients )</p>
+<p>:::info Exemple</p>
+<p>Postfix, exim4</p>
+<p>:::</p>
+<ul>
+<li>MDA ( Mail Delivery Agent ): Qui s’occupe de la distrubution des mails dans les boites des users</li>
+</ul>
+<p>:::info Exemple</p>
+<p>Dovecot, cyrus-IMAP</p>
+<p>:::</p>
+<p>:::tip Un serveur de messagerie</p>
+<p>Serveur de messagerie = MTA + MDA</p>
+<p>:::</p>
+<h2 id="protocoles-de-messagerie-smtp-pop-imap-mime">2) Protocoles de messagerie ( SMTP, POP, IMAP, MIME )</h2>
+<ul>
+<li>SMTP ( Simple Mail Tranfert Protocol ): Qui est utiliser par 1 client ( MUA ) pour envoyer des mails a son MTA ou utiliser par MTA pour envoyer des mails a un autre MTA.</li>
+</ul>
+<p>:::tip NB</p>
+<p>Le MTA est appele serveur SMTP</p>
+<p>:::</p>
+<ul>
+<li><p>POP ( Post Office Protocol ): Qui permet a un client de telecharger sur sa machine les mails geres par le MDA.</p></li>
+<li><p>IMAP ( Internet Message Access Protocol ): Qui pemet a un client d’acceder a ses mails sans les telecharger sur le post de l’utilisateur.</p></li>
+<li><p>MIME ( ): Qui Permet d’attacher des fichiers a des mails</p></li>
+</ul>
+<p>:::tip Format de boite a lettre</p>
+<ul>
+<li><pre><code>  Format mailbox: 1 fichier contenant tous les mails de l&#39;utilisateur</code></pre></li>
+<li><pre><code>  Format maildir: On creer 1 dossier dans lequel 1 mail est 1 fichier</code></pre></li>
+</ul>
+<p>:::</p>
+<h2 id="mise-en-oeuvre">3) Mise en oeuvre</h2>
+<p>:::danger Processus d’envoie de mail</p>
+<p>Insert l’image de</p>
+<p>:::</p>
+<p>:::tip Paquets a installer</p>
+<ul>
+<li><code>postfix</code> -&gt; MTA</li>
+<li><code>dovecot-pop3d</code> -&gt; MDA</li>
+<li><code>dovecot-imapd</code> -&gt; MDA</li>
+<li><code>roundcube</code> -&gt; webmail</li>
+<li><code>mysql -serveur</code> -&gt; Base de donnees</li>
+<li><code>roundcube-mysql</code> -&gt; Connecteur roundcube &amp; Base de donnees</li>
+</ul>
+<p>:::</p>
+<h1 id="installation-et-configuration-du-serveur">4.1) Installation et configuration du serveur</h1>
+<p>``` jsx title=“bash”</p>
+<p>sudo apt install postfix dovecot-pop3d dovecot-imapd roundcube roundcube-mysql</p>
+<p>```</p>
+<h2 id="postfix">Postfix</h2>
+<div class="info">
+<p>Fichier de configuration: <code>/etc/postfix/main.cf</code></p>
+</div>
+<p>On change les lignes: * myorigin = estm.sn * mydestination = estm.sn * home_mailbox = Maildir/</p>
+<p>Apres on redemmarre postfix pour prendre en consideration les configurations:</p>
+<p>``` jsx title=“bash”</p>
+<p>systemctl restart postfix</p>
+<p>```</p>
+<p>Ensuite on va parametre le MDA dans: <code>/etc/dovecot/conf.d/10-mail.conf</code></p>
+<p>On mets en commentaire la ligne: <code>mail_location = mbox:~/mail:INBOX=/var/mail/%u</code></p>
+<p>Et on decommente: <code>mail_location = maildir:~/Maildir</code></p>
+<p>pres on redemmarre postfix pour prendre en consideration les configurations:</p>
+<p>``` jsx title=“bash”</p>
+<p>systemctl restart dovecot</p>
+<p>```</p>
+<p>:::info Concernant apache</p>
+<p>Si un service utilise apache, il va dans le fichier de configuration de apache ( /etc/apache2/conf-available/ ) pour y creer son fichier de configuration.</p>
+<p>:::</p>
+<h2 id="roundcube">Roundcube</h2>
+<p>On va dans /etc/apache2/conf-available/roundcube.conf pour lui donner l’adresse du serveur. Pour ce faire on decommente la ligne:</p>
+<p><code>Alias /roundcube /var/lib/roundcube</code></p>
+<p>:::info Norme</p>
+<p>Il faut allez dans le dossier de config du service web et creer un fichier <code>config.\*\*\*</code></p>
+<p>:::</p>
+<h1 id="configuration-dun-client">4.2) Configuration d’un client</h1>
+<p>On precise l’adresse du serveur SMTP et le port d’ecoute</p>
+<p>:::danger Attention !</p>
+<p>Option: Certains serveurs SMTP exigent a des clients de s’authentifier avant d’envoyer de mail.</p>
+<p>Postfix lui par defaut ne l’exige pas mais roundcube Oui</p>
+<p>:::</p>
+<p>On mets <code>estm.sn</code> pour le parametre <code>dans</code>:</p>
+<p>Pour roundcube on peut le desactiver en enlevant le <code>%u</code> et le <code>%p</code></p>
+<figure>
+<img src="./ad-00008.png" alt="Table roundcube" /><figcaption>Table roundcube</figcaption>
+</figure>
+<h1 id="installer-et-configuration-dun-webmail">4.3) Installer et configuration d’un webmail</h1>
+<p>// SMTP username (if required) if you use %u as the username Roundcube // will use the current username for login $config[‘smtp_user’] = ’’;</p>
+<p>// SMTP password (if required) if you use %p as the password Roundcube // will use the current user’s password for login $config[‘smtp_pass’] = ’’;</p>
+<h1 id="gerer-les-contacts-des-utilisatuers-a-partir-dune-base-de-donnees">4.4) Gerer les contacts des utilisatuers a partir d’une base de donnees</h1>
+<div class="tip">
+<p>Notre table contact de la base de donnees mysql contient:</p>
+<figure>
+<img src="./ad-00007.png" alt="Table roundcube" /><figcaption>Table roundcube</figcaption>
+</figure>
+</div>
+<p>On peut inserer un contact directement dans mysql:</p>
+<p>``` jsx title=“sql” mysql&gt; insert into contacts (name, email, firstname, surname, user_id) values(“Abdoulaye Wade”,“abdou@estm.sn”,“Abdoulaye”,“Wade”,2);</p>
+<p>```</p>
+<p>Pour la correspondance on mets des lignes de ce format:</p>
+<p><code>adresse_ip nom_d_acces</code></p>
+<p>:::tip Correspondance adresse ip nom * Windows On edite le fichiers C:32</p>
+<ul>
+<li>Linux On edite le fichiers /etc/hosts :::</li>
+</ul>
+<p>Nous creons une configuration de site virtuel par nom dans apache2:</p>
+<p>On va dans : <code>/etc/apache2/sites-available/</code></p>
+<p>Ou on creer un fichier site1.conf</p>
+<p><code>jsx title="bash" &lt;VirtualHost *:80&gt; ServerName mail.estm.sn DocumentRoot /var/lib/roundcube/ DirectoryIndex index.php &lt;/VirualHost&gt;</code></p>
+<p>:::tip Activation</p>
+<p>``` jsx title=“bash” # Activation a2ensite site1.conf</p>
+<h1 id="on-recharge-la-configuration-dapache">On recharge la configuration d’apache</h1>
+<p>systemctl reload apache2</p>
+<p>``` :::</p>
+<p>:::tip Securiser mysql</p>
+<p>Apres l’installation de mysql on tape la commande:</p>
+<p><code>jsx title="bash" mysql_secure_installation</code></p>
+<p>:::</p>
+<h3 id="section"><strong><em>01/09/2022</em></strong></h3>
+<h3 id="objectif">Objectif:</h3>
+<h3 id="services-avances-de-messagerie">1- Services avances de messagerie</h3>
+<h2 id="mettre-en-place-une-liste-de-diffusion">1.1: Mettre en place une liste de diffusion</h2>
+<h1 id="principe">Principe:</h1>
+<p>On envoie un mail a un abonnee et le mail est duplique vers</p>
+<p>On edite le fichier <code>/etc/aliases</code></p>
+<p>:::tip Format d’edition</p>
+<p><code>Nom-liste: email1 email2 email3</code> :::</p>
+<p>Apres on fait</p>
+<p>``` jsx title=“bash”</p>
+<p>newaliases</p>
+<p>``` Pour prendre en compte les nouveaux groupes de diffusion creer.</p>
+<h2 id="redirection-de-mail">1.2: Redirection de mail</h2>
+<h1 id="principe-1">Principe:</h1>
+<p>Tout mail envoye a toto soit rediriger vers bouki</p>
+<p>:::tip Augmenter la taille des pieces jointes</p>
+<p><code>/etc/php/7.4/apache2/php.ini</code></p>
+<p>On edite la ligne: <code>max_file_uploads = 20</code></p>
+<figure>
+<img src="./ad-00006.png" alt="Augemnter la taille" /><figcaption>Augemnter la taille</figcaption>
+</figure>
+<p>:::</p>
+<h2 id="repondeur-automatique-personnel">1.3: Repondeur automatique ( personnel )</h2>
+<h1 id="principe-2">Principe:</h1>
+<p>Quand on envoie un message a bouki, un message automatique est renvoyer a l’expediteur.</p>
+<p>:::tip Outils</p>
+<p>C’est un logiciel qui permet de faire repondeur automatique:</p>
+<p><code>vacation</code></p>
+<p>Installation:</p>
+<p>``` jsx title=“bash”</p>
+<h1 id="apt-install-vacation">apt install vacation</h1>
+<p>```</p>
+<p>:::</p>
+<p>Chaque utilisateur desirant avoir un repondeur automatique devra: - Se connecter - Tapper:</p>
+<p>``` jsx title=“bash”</p>
+<p>$ vacation</p>
+<p>``` - Personnaliser le message</p>
+<p><strong><em>(07/09/2022)</em></strong></p>
+<h3 id="inserer-un-fichier-csv-dans-une-base-de-donnees-mysql">Inserer un fichier csv dans une base de donnees mysql</h3>
+<p>On affiche le parametre global:</p>
+<p>SHOW GLOBAL VARIABLES LIKE <code>'local_infile'</code>;</p>
+<p>Si sa valeur est ‘OFF’ on le change pour pouvoir charger des fichiers dans mysql.</p>
+<p><code>jsx title="mysql" SET GLOBAL local_infile = 1;</code></p>
+<p><code>/etc/mysql/mysql.conf.d/mysqld.cnf</code> On ajoute la ligne secure-file-priv = ’’</p>
+<p><img src="./ad-00009.png" /></p>
+<p>On creer un fichier csv: <code>fiche1</code> avec comme contenue:</p>
+<p><code>jsx title="csv" Macky,Sall,13 Ousmane,Sonko,14 Abdoulaye,Wade,17 Abdoulaye,Bathily,15,5</code></p>
+<p>On le copie dans <code>/var/lib/mysql/</code></p>
+<p>``` jsx title=“csv”</p>
+<p>cp fiche1 /var/lib/mysql</p>
+<p>``` Apres cela on mets les commandes en mysql pour charger le fichier dans la base de donnees:</p>
+<p>``` jsx title=“sql”</p>
+<p>load data local infile ‘./fiche1’ into table etudiant fields terminated by ‘,’ (prenom, nom, note);</p>
+<p>```</p>
+<h3 id="application">Application:</h3>
+<ul>
+<li>Liste d’etudiants dans un fichier excel contenant les numeros de telephones</li>
+<li>Mettre un systeme telephonique ou une autorite va enregistrer</li>
+<li>A un moment voulu, le systeme appelle tous les etudiants et des qu’un etudiant decroche on lui livre le message</li>
+</ul>
+<p>:::tip Client SIP</p>
+<ul>
+<li>MicroSIP</li>
+<li>Blink</li>
+</ul>
+<p>:::</p>
+<p>Avec un script php on peut faire un script pour se connecter a un serveur de telephone et un autre pour recuperer les numeros dans la base de donnees.</p>
+<h3 id="planification-des-taches-at-cron-crontab">Planification des taches (at, cron, crontab)</h3>
+<h2 id="at">at</h2>
+<p>Il permet d’executer des taches a une date donnee.</p>
+<p>On installe la commande:</p>
+<p>``` jsx title=“bash”</p>
+<h1 id="apt-install-at">apt install at</h1>
+<p>```</p>
+<p>On peut planifier a 20:29 la creation d’un fichier:</p>
+<p>``` jsx title=“bash”</p>
+<h1 id="at-2029-touch-fiche1">at 20:29 touch fiche1</h1>
+<p>```</p>
+<h2 id="crontab">crontab</h2>
+<p>Il permet de planifier des taches routinieres</p>
+<div class="danger">
+<p>Pour qu’un programme en php puisse se connecter a une base de donnees, il faut installer le paquet: ``` jsx title=“bash”</p>
+<h1 id="apt-install-php-mysql">apt install php-mysql</h1>
+<p>``` Et pour utiliser php en ligne de commande on installer:</p>
+<p>``` jsx title=“bash”</p>
+<h1 id="apt-install-php.cli">apt install php.cli</h1>
+<p>```</p>
+</div>
+<p>Pour que php se connecte a une base de donnees:</p>
+<p>``` jsx title=“php”</p>
+<?php
+    $conn = mysqli_connect("localhost", "bouki", "P@sser123", "ecole");
+    $req = "INSERT INTO etudiant(nom, prenom) VALUES ("Diouf", "Cherif"), ("Diouf", "Aicha");
+
+    $result = mysqli_query($conn, $req);
+    mysql_close($conn);
+?>
+<p>```</p>
+<p>:::info mysqli</p>
+<p><code>mysqli</code> est une version ameliorer de mysql</p>
+<p>:::</p>
+<p><strong><em>08/09/2022</em></strong></p>
+<h3 id="approfondir-le-service-web">Approfondir le service WEB</h3>
+<p>Cela a travers le concept de CGI ( Common Gateway Interface ) permettant d’executer n’importe quel programme externe (C, python, …)</p>
+<p>A faire: * Ecrire des programmes en python se connectant a une base de donnees * Preparation de l’environnement de developpement</p>
+<p>:::tip Installation</p>
+<p>On aura besoin de ces paquets: <code>python3 mysql-server python-mysqldb</code></p>
+<p><code>jsx title="bash" apt install python3 python-mysql-db mysql-server</code></p>
+<p>:::</p>
+<p>Afficher les utilisateurs de mysql</p>
+<p>``` jsx title=“sql”</p>
+<p>SELECT User, Host FROM mysql.user;</p>
+<p>```</p>
+<p>:::tip CGI</p>
+<p>Les CGI se trouve dans: <code>/usr/lib/cig-bin/</code></p>
+<p>:::</p>
+<h2 id="methode-a-suivre-pour-ecrire-une-application-python-de-connection-a-mysql">Methode a suivre pour ecrire une application python de connection a mysql</h2>
+<h1 id="preparer-la-requete-dans-une-variable.">1- Preparer la requete dans une variable.</h1>
+<h1 id="se-connecter-a-la-base.">2- Se connecter a la base.</h1>
+<h1 id="executer-la-requete.">3- Executer la requete.</h1>
+<h1 id="eventuellement-recuperer-les-resultats-pour-exploitation">4- Eventuellement recuperer les resultats pour exploitation</h1>
+<p>On creer notre script python <code>crud.py</code></p>
+<p>``` jsx title=“python”</p>
+<p>#!/usr/bin/python3</p>
+<p>import MySQLdb</p>
+<p>def database(): global conn, curseur conn = MySQLdb.connect(user=“toto”, passwd=“passer”, db=“banque”) curseur = conn.cursor() return conn, curseur</p>
+<p>def inserer(prenom, nom, numcompte, code, montant): req = “INSERT INTO client (prenom, nom, numcompte, code, montant) values(%s, %s, %s, %s, %s)” database() val = (prenom, nom, numcompte, code, montant) curseur.execute(req, val) conn.commit() print(“Insertion reussie”)</p>
+<p>inserer(“Alex”, “Kabe”, “1001”, “1111”, “50000”)</p>
+<p>``` # Resultat</p>
+<p>Nous voyons que le script a reussi a executer la requete:</p>
+<p><img src="./ad-00010.png" /></p>
+<h2 id="cgi">CGI</h2>
+<p>Pour faire du CGI il faut activer le CGI:</p>
+<p>``` jsx title=“bash”</p>
+<p>a2enmod cgid</p>
+<p>```</p>
+<p>et on redemarre le serveur web:</p>
+<p>``` jsx title=“bash”</p>
+<p>systemctl restart apache2</p>
+<p>```</p>
+<p>Il faut trouver le dossier dans le quel on va mettre le script: On peut verifier le fichier: <code>/etc/apache2/conf-available/serve-cgi-bin.conf</code></p>
+<p>``` jsx title=“bash”</p>
+<p>cat /etc/apache2/conf-available/serve-cgi-bin.conf</p>
+<p>```</p>
+<p>On peut voir a son contenue:</p>
+<p>``` jsx title=“bash”</p>
+<p>&lt;IfModule mod_alias.c&gt; &lt;IfModule mod_cgi.c&gt; Define ENABLE_USR_LIB_CGI_BIN </IfModule></p>
+<pre><code>&lt;IfModule mod_cgid.c&gt;
+    Define ENABLE_USR_LIB_CGI_BIN
+&lt;/IfModule&gt;
+
+&lt;IfDefine ENABLE_USR_LIB_CGI_BIN&gt;
+    ScriptAlias /cgi-bin/ /usr/lib/cgi-bin/
+    &lt;Directory &quot;/usr/lib/cgi-bin&quot;&gt;
+        AllowOverride None
+        Options +ExecCGI -MultiViews +SymLinksIfOwnerMatch
+        Require all granted
+    &lt;/Directory&gt;
+&lt;/IfDefine&gt;</code></pre>
+<p></IfModule></p>
+<p>```</p>
+<p>:::danger Attention</p>
+<p>En HTTP il est obligatoire de laisser une vide entre l’entete et le corps</p>
+<p>:::</p>
+<p>On creer un script python que l’on rend executable qui permet d’afficher du text sur le navigateur:</p>
+<p>``` jsx title=“python”</p>
+<p>#!/usr/bin/python3</p>
+<p>print(‘Content-Type:text/plain’) print() # En HTTP il est obligatoire de laisser une vide entre l’entete et le corps print(“Les noirs 2.0 respectent maintenant les regles ! Bravo a eux”)</p>
+<p>```</p>
+<h3 id="resume">Resume</h3>
+<h3 id="etudie-les-reseaux">Etudie les reseaux</h3>
+<ul>
+<li>Etude des equipements</li>
+<li>Etude des logiciels</li>
+</ul>
+<h3 id="logiciels">Logiciels:</h3>
+<h2 id="utiliser-les-emulateurs-tel-que-gns3-pour-la-maitrise-du-fonctionnement-des-equipements-tels-routeurs-switches-firewall.">Utiliser les emulateurs tel que GNS3 pour la maitrise du fonctionnement des equipements tels routeurs, switches, firewall.</h2>
+<h2 id="lutilisation-des-plateforme-de-virtualisation-vmware-et-virtualbox-permet-de-mettre-en-oeuvre-des-concepts-quon-trouve-tous-les-jours-en-entreprise">L’utilisation des plateforme de virtualisation (VMWare et Virtualbox) permet de mettre en oeuvre des concepts qu’on trouve tous les jours en entreprise</h2>
+<p>:::tip Exemple</p>
+<ul>
+<li>Redirection de ports</li>
+<li>Mode promisc</li>
+<li>Supervision necessite</li>
+<li>NAT</li>
+<li>Carte en mode promisc</li>
+<li>Le port mirroring et le port forwarding</li>
+</ul>
+<p>:::</p>
+<h2 id="sgbd">SGBD</h2>
+<ul>
+<li>Journalisation</li>
+<li>Commit</li>
+<li>Chargement de donnees a partir de fichier</li>
+</ul>
+<h2 id="serveur-web">Serveur web</h2>
+<ul>
+<li>Journal (error.log)</li>
+<li>Modules (cgid)</li>
+<li>Sites virtuels par nom</li>
+</ul>
+<h2 id="connexion-a-distance-tranfere-de-fichiers">Connexion a distance &amp; tranfere de fichiers</h2>
+<ul>
+<li>SSH</li>
+<li>Telnet</li>
+<li>SCP</li>
+<li>WinSCP</li>
+<li>Firezilla</li>
+<li>vsftpd</li>
+<li>Securite de transaction ( Mode texte <em>Telnet</em> &amp; Mode message <em>SSH</em> )</li>
+</ul>
+<h2 id="developpement">Developpement</h2>
+<ul>
+<li>Python ( Combiner avec une base de donnees )</li>
+<li>PHP ( Combiner avec une base de donnees )</li>
+</ul>
+<h2 id="administration">Administration</h2>
+<ul>
+<li>Gestion des fautes</li>
+<li>Gestion des configurations</li>
+</ul>
+<p>:::tip Exemple</p>
+<ul>
+<li>Mettre en place un serveur TFTP</li>
+<li>Configurer un routeur</li>
+<li>Sauvegarder la configuration du routeur</li>
+<li>Simuler une panne, remplacer le routeur</li>
+<li>restaurer la configuration</li>
+</ul>
+<p>:::</p>
+<ul>
+<li>Gestion de l’utilisation</li>
+<li>Gestion de la performance</li>
+</ul>
+<p>:::info Performance</p>
+<p>On install l’outil lm-sensors:</p>
+<p>``` jsx title=“bash”</p>
+<p>sudo apt-get install lm-sensors</p>
+<p>```</p>
+<p>Et on affiche la temperature avec:</p>
+<p>``` jsx title=“bash”</p>
+<p>sudo sensors-detect</p>
+<p>```</p>
+<p>:::</p>
+<ul>
+<li>Gestion de la securite</li>
+</ul>
+<h3 id="supervision-adhoc-snmp">Supervision ( adhoc &amp; SNMP )</h3>
+<h2 id="methode-adhoc">Methode adhoc</h2>
+<h2 id="protocole-snmp">Protocole SNMP</h2>
+<h3 id="equipements">Equipements</h3>
+<h2 id="gns">GNS</h2>
+<p>On installe GNS3</p>
+<p>``` jsx title=“bash”</p>
+<p>sudo add-apt-repository ppa:gns3/ppa sudo apt update<br />
+sudo apt install gns3-gui gns3-server</p>
+<p>```</p>
+<p>On peut telecharger l’OS d’un router sur ce site:</p>
+<p><a href="http://tfr.org/cisco/37xx/3745/"></a></p>
+<p>:::info Remarque</p>
+<p>Si on met un module sur le Slot 1 tous les interfaces de ce module commence par le chiffre 1</p>
+<p>:::</p>
+<p>Sur le commutateur pour activer le port mirroring:</p>
+<p>``` jsx title=“cisco”</p>
+<p>R1(config)#monitor session 1 source interface f1/0 both R1(config)#monitor session 1 source interface f1/2 both R1(config)#monitor session 1 destination interface f1/1</p>
+<p>```</p>
+<p>Un switch a 4 memoires: NVRAM, Flash, …</p>
+<p>Si on mets une nouvelle memoire on doit la formater avec</p>
+<p>``` jsx title=“cisco”</p>
+<p>erase flash</p>
+<p>```</p>
+<p>GNS3 est un logiciel …</p>
+<div class="danger">
+<p>Un vlan est un domaine de diffusion, deux PCs n’appartenant pas a un meme vlan ne peuvent pas se joindre par PING.</p>
+</div>
+<p>Ca ne marche pas. Parce que les messages ARP de diffusion ne rejoignent pas l’autre machine …</p>
+<h3 id="section-1"><strong><em>(22/09/2022)</em></strong></h3>
+<h3 id="tp-gestion-de-la-sécurité">TP gestion de la sécurité</h3>
+<p>L’objectif de ce TP est d’utiliser les outils pour mettre en œuvre la gestion de la securité dans le contexte d’un cours d’administration réseaux. On s’appuiera sur les techniques de filtrage des firewall et des outils tels que : iptables, fail2ban,portsentry,ufw,rkhunter</p>
+<h2 id="fail2ban">Fail2ban</h2>
+<p>:::tip Utilisation</p>
+<p>Fail2ban est utilise pour generer des regles de securite pour bannir un utilisateur qui tente d’accepter a un service apres plusieurs tentatives.</p>
+<p>:::</p>
+<p>``` jsx title=“bash”</p>
+<p>apt-get install fail2ban portsentry</p>
+<p>```</p>
+<p>On edite le fichier <code>/etc/fail2ban/jail.local</code></p>
+<p>Et pour surveille ssh et ftp on met:</p>
+<p>``` jsx title=“bash”</p>
+<p>[sshd] enabled = true port = 22 filter = sshd logpath = /var/log/auth.log maxretry = 3</p>
+<p>[vsftpd] enabled = true port = ftp,ftp-data filter = vsftpd logpath = %(vsftpd_log)s maxretry = 3</p>
+<p>```</p>
+<p>:::info Arreter un processus</p>
+<p>Sans utiliser <code>systemctl</code> ni <code>service</code>:</p>
+<p>``` jsx title=“bash”</p>
+<p>killall vsftpd</p>
+<p>```</p>
+<p>:::</p>
+<h2 id="portsentry">Portsentry</h2>
+<p>:::tip Utilisation</p>
+<p>Portsentry peut etre utiliser dans le cas ou un attaquant tente de scanner les ports ouvert sur notre machine.</p>
+<p>:::</p>
+<p>:::danger VMware &amp; Virtual box</p>
+<ul>
+<li>Comment est-ce qu’on allege les regles de securite sur VMware et virtual box</li>
+</ul>
+<p>:::</p>
+<p>:::tip Bonus</p>
+<ul>
+<li><pre><code>  Comment generer et lire des codes QR</code></pre></li>
+<li><pre><code>  Comment detecter un objet sur une camera</code></pre></li>
+<li><pre><code>  IA</code></pre></li>
+</ul>
+<p>:::</p>
+<p>On install</p>
+<p>``` jsx title=“bash”</p>
+<p>apt install qrencode</p>
+<p>``` On peut l’utiliser pour cacher un message dans une images:</p>
+<p>``` jsx title=“bash”<br />
+</p>
+<p>qrencode -0 image.png “Ceci est un secret”</p>
+<p>```</p>
