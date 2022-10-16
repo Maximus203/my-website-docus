@@ -1,32 +1,49 @@
-##### Cours d'administration et supervision reseaux
+# Cours d'administration et supervision reseaux
 
-## ***Presentation du cour theorique (18/08/2022)***
+
+
+
+
+
+
+
+*Presentation du cour theorique*
+
+*(18/08/2022)*
 
 :::tip	Important
-## Quels sont les profils d'acces d'une machine windows a un reseaux ?
 
-*	** Public: ** Partages desactives, ping bloque
-*	** Prive: ** Partages actives
-*	** Domaine: ** Les regles de securites sont gerer au niveau du controleur de domaine
+ Quels sont les profils d'acces d'une machine windows a un reseaux ?
+
+*	*Public:* Partages desactives, ping bloque
+*	*Prive:* Partages actives
+*	*Domaine:* Les regles de securites sont gerer au niveau du controleur de domaine
+
 :::
 
 L'outil loupe est utiliser pour zoomer sont ecran.
 
 :::info Information
+
 Pour ouvrir le firewall on tape firewall dans la barre de recherche de windows. Cela nous permet aussi de voir les profils d'acces.
+
 :::
 
-## Comment autoriser a travers un parefeu une application windows ?
+#### Comment autoriser a travers un parefeu une application windows ?
 
-# Dans le parefeu windows la fenetre a gauche nous pouvons autoriser une application.
+Dans le parefeu windows la fenetre a gauche nous pouvons autoriser une application.
 
 
-## Est-ce que ces deux machines sont dans le meme reseaux:
+*Est-ce que ces deux machines sont dans le meme reseaux:*
 *	W: 192.168.3.97
 *	L: 192.168.5.245
 ?
 
-# On ne peut pas se prononcer tant qu'on a pas le masque reseau
+:::caution Attention !
+
+On ne peut pas se prononcer tant qu'on a pas le masque reseau
+
+:::
 
 Avec comme information supplementaire le masque:
 - W: 192.168.3.97/21
@@ -34,87 +51,107 @@ Avec comme information supplementaire le masque:
 
 On fait le calcule binaire de l'application des addresses au masque reseau et on trouve qu'ils sont dans le meme reseau.
 
-## Interdire le ping sur linux
+### Interdire le ping sur linux
 
 On passe en mode super utilisateur
 
 Ensuite on execute la commande:
 
 ``` jsx title="bash"
+
 iptables -A input -p icmp -j REJET
+
 ```
 
-### ***Que faut-il maitriser dans le cadre de ce cour ? ( 24/08/2022 )***
+*Que faut-il maitriser dans le cadre de ce cour ? ( 24/08/2022 )*
 
-### Gestion des equipements que RADIO
+## Gestion des equipements que RADIO
 
-### Fonctionnement de l'environnement de travail (windows, linux)
+*Fonctionnement de l'environnement de travail (windows, linux)*
 
-## Fonctionnement des cartes reseaux
+### Fonctionnement des cartes reseaux
 
-# Mode promiscuite:
+*Mode promiscuite:*
 Il permet a une carte reseaux d'accepter toutes les trames qui lui sont envoyer
 
-# Machine virtuelle:
+*Machine virtuelle:*
 Pour permettre a notre machine virtuelle d'etre dans le meme reseaux que
 
-# net-tools
+*net-tools*
 
 ``` jsx title="bash"
+
 ifconfig
+
 ```
 Permet de voir nos cartes reseaux
 
 ``` jsx title="bash"
+
 iwconfig 
+
 ```
 Permet de voir les cartes Wi-Fi
 
 ``` jsx title="bash" 
+
 iwlist <nom de la carte>
+
 ```
 Permet de lister les canaux supporter par la machine
 
 :::info Information
+
 Une bande de frequence a ete laisse pour les gens qui fabriquent des equipements pour les industries les scientifiques et pour le medical. Cette bande s'appelle ISM.
 ISM: Industrie Scientifique Medical ( 2 bandes ISM: 2,4 GHz et 5 GHz )
+
 :::
 
 ``` jsx title="bash"
+
 iwlist <nom de la carte> scan
+
 ```
+
 Pour afficher les Wi-Fi disponible et les informations dessus.
 
 Si Mode == "Master" (Insfrastrure) alors ce reseau est un point d'acces
 
-Si Mode == "" (Point a point) alors ce reseau est un point a point
+Si Mode == "Ad-hoc" (Point a point) alors ce reseau est un point a point
 
 :::info Information
+
 En Wi-Fi une frequence occupe 11MHz a gauche et 11MHz a droite donc il est conseiller d'utiliser une ecart de 5 unites ( MHz ) lorsque deux finis sont proches.
 La premiere frequence est: 2,412 GHz
-***La formule pour calculer la frequence de la ieme canal: fi = f1 + (i-1) * 0,005***
+
+*La formule pour calculer la frequence de la ieme canal: fi = f1 + (i-1) * 0,005*
+
 :::
 
-## Le fonctionnement d'un switch:
+### Le fonctionnement d'un switch:
+
 *	table de commutation
 *	Algo de reception de trames pour un switch
 
 :::info Information
+
 *	Port mirroring ( Le fait de copier toutes les trames envoyer sur les autres ports et les envoyer sur un autre port qui est port ou je veux placer une outils de supervision )
+
 *	Port forwarding ou port mapping est le nom donné à une technique de transfert de données d'un port d'un nœud vers un autre nœud. Essentiellement, les données sont interceptées et redirigées d'un ordinateur à un autre. La redirection de port est utilisée dans les scénarios où vous souhaitez accéder à un appareil en réseau ou à un service connecté à Internet à partir d'un emplacement distant.
+
 :::
 
 :::tip Contraste 
 
-***Lien entre les concepts entre le fonctionnement de la carte reseaux et les concepts de port mirroring et port Forwarding***
+*Lien entre les concepts entre le fonctionnement de la carte reseaux et les concepts de port mirroring et port Forwarding*
 
 Promiscuite: La trame va accepter toutes les trames memes celle qui ne lui sont psa desiner
 
-Port mirroring:
+Port mirroring: Certains switchs proposent une fonctionnalité nommée « clonage de port » (port mirroring). Cette fonctionnalité permet de configurer le switch afin que celui-ci copie tous les paquets transitant par un port (ou par un VLAN) vers un autre port. Cela peut être utile dans des cas de diagnostic ou d'analyse du trafic réseau. 
 
 :::
 
-## Pare-feu et filtrage sous linux
+### Pare-feu et filtrage sous linux
 
 Les deux outils qu'on va utiliser:
 *	iptables
@@ -123,120 +160,153 @@ Les deux outils qu'on va utiliser:
 Pour lister les regles de securite `iptable -L`
 
 :::tip Important
+
 Le noyau du SE fabrique les datagrammes ip. Lorsqu'un routeur recoit une datagramme ip il diminue le champt *TTL* d'une unite. Lorsque ce champs atteint zero ce datagramme est detruit.
+
 :::
 
 Ajouter une regle qui bloquer tous les ping:
+
 ``` jsx title="bash"
+
 iptables -A INPUT -p icmp -j REJET
+
 ```
 
 Supprimer toutes les regles:
+
 ``` jsx title="bash"
+
 iptables -F
+
 ```
 
 Ajouter une regler qui bloque tous les ping sauf pour une machine:
+
 ``` jsx title="bash"
+
 iptables -A INPUT -p icmp ! -S 192.168.7.25 -j REJET
+
 ```
 
 Pour afficher l'etat du service ufw:
+
 ``` jsx title="bash"
+
 systemctl status <nom du service>
+
 ```
 
 Pour activer ou desactiver une service:
+
 ``` jsx title="bash"
+
 systemctl enable/disable <nom du service>
+
 ```
 
 Pour masquer une service:
+
 ``` jsx title="bash"
+
 systemctl mask/unmask <nom du service>
+
 ```
 
 :::tip Cas d'utilisation de `mask/unmask`
+
 Si on doit mettre en place un serveur de telephonie sur ip et qu'on utlise *Asterisk* et *FreeSwitch* on peut masquer un service pendant qu'on travaille sur l'autre et apres inverser pour qu'ils n'utilisent pas les memes ports.
+
 :::
 
-## Outils d'analyse de trames:
+### Outils d'analyse de trames:
 *	Wireshark
 *	Telnet
 
 :::tip Installation
+
 *	Wireshark
 `sudo apt install wireshark`
 
 *	Telnet
 `sudo apt install telnetd`
+
 :::
 
 :::info Information
+
 Sous linux le "d" a la fin du nom d'un paquet signifie que c'est un paquet serveur. Il existe aussi son omologue sans le "d" qui signifie que c'est le paquet client.
+
 :::
 
 :::info Information
+
 La commande: `apt policy <nom du paquet>` est utiliser pour savoir si le paquet est installer.
+
 :::
 
 Pour afficher les connexions réseau, les tables de routage, les statistiques des interfaces, les connexions masquées, les messages netlink, et les membres multicast. On filtre les avec les lignes contenant "23" ( Port de telnet )
+
 ``` jsx title="bash"
+
 netstat -anp | grep -w 23
+
 ```
 
 
 :::tip Pour qu'un client puisse acceder a un service
+
 *	Adresse IP du serveur
 *	Port de serveur
 *	Potrocole de transport
+
 :::
 
-:::danger Important !
+:::caution Important !
+
 *	Si un protocole utlise udp, c'est qu'il n'est pas sensible au erreur.
 *	Si un protocole utilise tcp, c'est qu'il est sensible au erreur. 
+
 :::
 
-Pour installer le serveur ssh:
-``` jsx title="bash"
-sudo apt install openssh-server
-```
-
-Pour se connecter avec ssh sur une machine:
-``` jsx title="bash"
-ssh <nom d'utilisateur>@<adresse de la machine>
 ```
 
 :::tip Important
+
 Pour savoir qui est connecter sur la machine: `who`
 
 Pour savoir qui fait quoi sur la machine: `w`
+
 :::
 
-**Wireshark**
+### *Wireshark*
 
-![Interface de wireshark](./ad-00001.png)
+![Interface de wireshark](/img/adminsuper/ad-00001.png)
 
 
-### I- Principes de mise ne place d'un service reseaux ***(25/08/2022)***
+*(25/08/2022)*
 
-## 1- Comprendre l'interet du service
+## I- Principes de mise ne place d'un service reseaux 
+
+### 1- Comprendre l'interet du service
 
 :::info Exemple
+
 *	Le service Telnet permet la connexion a distance
 
 *	Le service SSH permet la connexion a distance securse
+
 :::
 
-## 2- Connaitre les entites du service
+### 2- Connaitre les entites du service
 
-## 3- Connaitre les protocoles du service
+### 3- Connaitre les protocoles du service
 
-## 4- Connaitre les differents types de messages echanges par les entites du service
+### 4- Connaitre les differents types de messages echanges par les entites du service
 
-## 5- Connaitre le format de chaque message
+### 5- Connaitre le format de chaque message
 
-## 6- Intallation selon le cas:
+### 6- Intallation selon le cas:
 
 *	Windows Server
 
@@ -253,10 +323,10 @@ Pour savoir qui fait quoi sur la machine: `w`
 :::info Que faire ?
 
 *	Connaitre les noms des paquets a installer
-*	On installe les paquets(\*)
+*	On installe les paquets(*)
 
 
-***3 grandes methodes:***
+*3 grandes methodes:*
 
 *	M1: Le paquet est connu par la distribution
 *	M2: Le paquet est archive
@@ -264,34 +334,44 @@ Pour savoir qui fait quoi sur la machine: `w`
 	-- Installation de la cle du logiciel;
 	-- Installer le lien de telechargement du logiciel
 	-- `apt update ; apt install <nom du logiciel>`
+
 :::
 
-## 7- Configuration selon:
+### 7- Configuration selon:
 
 *	Linux: Identifier les fichiers de configuration, identifier les parametres du service, parametrer et redemarrer le service.
 
 
-### Pratique
+## Pratique
 
-## Maitrise de l'environnement Linux 
+### Maitrise de l'environnement Linux 
 
 Pour qu'un utilisateur deja creer puisse utiliser la commande `sudo` il faut l'ajouter dans le groupe sudo avec la commande:
+
 ``` jsx title="bash"
+
 gpasswd -a <nom d'utilisateur> sudo
+
 ```
 
 Pour supprimer un utilisateur d'un groupe on fait:
 
 ``` jsx title="bash"
+
 gpasswd -d <nom d'utilisateur> <nom du groupe>
+
 ```
 
 Pour nommer un utiilisateur administrateur d'un groupe:
+
+
 ``` jsx title="bash"
+
 gpasswd -A <nom d'utilisateur> sudo
+
 ```
 
-## Analyse des trames
+### Analyse des trames
 
 *	Se familialiser avec l'encapsulation
 *	Sensibiliser les apprenants sur les problemes de securite de certaines applications
@@ -304,30 +384,52 @@ Sous linux, un service peut etre autonome ou non autonome. Si un service est non
 :::
 
 :::tip Important
+
 On peut trouver tous les services confier on regarde le fichier: `/etc/inetd.cnf`
+
 :::
 
-## Telnet
+### Telnet
 
 Il n'est pas securise, il fonctionne en mode caractere.
 
-## SSH
+### SSH
 
 Il est securise
 
-## FTP
+Pour installer le serveur ssh:
+
+``` jsx title="bash"
+
+sudo apt install openssh-server
+
+```
+
+Pour se connecter avec ssh sur une machine:
+
+``` jsx title="bash"
+
+ssh <nom d'utilisateur>@<adresse de la machine>
+
+```
+
+### FTP
 
 Il fonctionnee en mode message
 
 :::tip Clients
+
 filezilla & winscp
+
 :::
 
 :::info Information
-On se pose deux questions:
+
+On se pose trois questions:
 *	Autoriser les utilisateurs anonymes a se connecter ?
 *	Faut-il autoriser les utilisateurs ayant un compte a se connecter ?
 *	Faut-il bloquer l'utilisateur dans son dossier personnel ?
+
 :::
 
 Le fichier de configuration du serveur: `/etc/vsftpd.conf`
@@ -335,10 +437,12 @@ Le fichier de configuration du serveur: `/etc/vsftpd.conf`
 :::danger Parametres
 
 ``` jsx title="bash"
-anonymous\_enable=NO
-local\_enable=YES
-write\_enable=YES
-#chroot\_local\_user=YES
+
+anonymous_enable=NO
+local_enable=YES
+write_enable=YES
+#chroot_local_user=YES
+
 ```
 :::
 
@@ -346,48 +450,60 @@ write\_enable=YES
 
 Confiner un utilisateur dans son repertoire personnel avec FTP (vsftpd)
 
-## Installation et utilisation du client ftp filezilla
+### Installation et utilisation du client ftp filezilla
 
 *	`sudo apt install filezilla`
 *	Lancer filezilla
 
 :::info Conclusion
+
 FTP n'est pas securise
 Le protocol FTP
+
 :::
 
 ## Exercice
 
 Creer un tunnel ssh pour y faire passer des messages les messages services non securises.
 
-## mysql
+### mysql
 
 :::info Paquets
+
 *	Client: mysql-client
 *	Serveur: mysql-server
+
 :::
 
 :::tip Fichier de configuration
+
 `/etc/mysql/mysql.conf.d/mysqld.cnf`
+
 :::
 
 Pour que notre service de base de donnees soit accessible par tous:
 *Parametre:* bind-address =	0.0.0.0
 
 Pour activer les logs:
+
 *Parametres* 
-*	general\_log\_file        = /var/log/mysql/query.log
-*	general\_log             = 1
+
+*	general_log_file        = /var/log/mysql/query.log
+*	general_log             = 1
 
 :::tip Commandes
+
 ``` jsx title="mysql"
+
 show databases;
 create database master;
 create user bobo identified by "P@sser123";
 
 grant all privileges on master.* to bobo;
 flush privileges;
+
 ```
+
 :::
 
 Pour voir les logs, nous fesons un tail sur le fichier:
@@ -398,24 +514,30 @@ Pour voir les logs, nous fesons un tail sur le fichier:
 On peut faire 
 
 ``` jsx title="mysql"
+
 create table etudiant(id int primary key AUTO_INCREMENT, prenom varchar(30), nom varchar(30), note varchar(30));
 
 insert into etudiant(prenom, nom, note values("Cherif", "Diouf", "18"), ("Kahar", "Idrissou", "18");
 
 ```
 
-## Apache2
+### Apache2
 
 ``` jsx title="bash"
+
 sudo apt install apache2
+
 ```
 
 :::tip Dossier site
+
 `/var/www/html/`
+
 :::
 
 
 On creer un fichier /var/www/html/test/bonjour.php avec le contenue:
+
 ``` jsx title="php"
 
 <?php 
@@ -423,6 +545,7 @@ On creer un fichier /var/www/html/test/bonjour.php avec le contenue:
 	echo "<br>" // On fait semblant de faire une erreur au niveau de cette ligne
 	echo "Bonjour de nouveau";
 ?>
+
 ```
 
 
@@ -442,24 +565,28 @@ Le ficher log c'est le:
 
 
 :::tip Logs
+
 	Pour regarder les fichiers de log on utilise tail -f suivis du nom du fichier pour voir la fin
+
 :::
 
 
-## Service de messagerie
+### Service de messagerie
 
 Il y a deux types de messageries:
 *	Mail
 *	I.M. ( Messagerie Instentannee )
 
 :::info Paquets service messagerie
+
 *	Openfire
 *	Prosody
 *	Jitsi-meet
+
 :::
 
 
-## Services de messagerie classique:
+#### Services de messagerie classique:
 
 
 :::tip Plan
@@ -478,24 +605,29 @@ Il y a deux types de messageries:
 	On redemarre le serveur apache2: 
 
 ``` jsx title="bash"
+
 systemctl restart apache2
+
 ```
 	b) Configuration de roundcube instant client de messagerie.
+
 :::
 
 
 
-## 1) Agents ( Composants ) de messagerie
+##### 1) Agents ( Composants ) de messagerie
 
 Il est essentiellement compose de 3 programmes appele _agent de messagerie_:
 -	MUA ( Mail User Agent ): Qui s'occupe de l'ecriture ou de la lecture de mail.
 
 :::info Exemple
+
 Thunderbird
 
 ( On peut l'utiliser pour generer une paire de cle pour le chiffrement des messages )
 
 :::
+
 -	MTA ( Mail Transfer Agent ): Qui s'occupe de reception et d'envoie de mail venant des MUA ( clients )
 
 :::info Exemple
@@ -518,7 +650,7 @@ Serveur de messagerie = MTA + MDA
 
 :::
 
-## 2) Protocoles de messagerie ( SMTP, POP, IMAP, MIME )
+##### 2) Protocoles de messagerie ( SMTP, POP, IMAP, MIME )
 
 *	SMTP ( Simple Mail Tranfert Protocol ): 
 		Qui est utiliser par 1 client ( MUA ) pour envoyer des mails a son MTA ou utiliser par MTA pour envoyer des mails a un autre MTA.
@@ -545,13 +677,12 @@ Le MTA est appele serveur SMTP
 
 :::
 
-## 3) Mise en oeuvre 
+##### 3) Mise en oeuvre 
 
-:::danger Processus d'envoie de mail
+*Processus d'envoie de mail*
 
-Insert l'image de 
+![Processus d'envoie de mail](/img/adminsuper/ad-00011.png)
 
-:::
 
 :::tip Paquets a installer
 
@@ -564,7 +695,7 @@ Insert l'image de
 
 :::
 
-# 4.1) Installation et configuration du serveur
+###### 4.1) Installation et configuration du serveur
 
 ``` jsx title="bash"
 
@@ -572,7 +703,7 @@ sudo apt install postfix dovecot-pop3d dovecot-imapd roundcube roundcube-mysql
 
 ```
 
-## Postfix
+###### Postfix
 
 :::info
 
@@ -613,7 +744,7 @@ Si un service utilise apache, il va dans le fichier de configuration de apache (
 
 :::
 
-## Roundcube
+###### Roundcube
 
 On va dans /etc/apache2/conf-available/roundcube.conf pour lui donner l'adresse du serveur. Pour ce faire on decommente la ligne:
 
@@ -621,12 +752,12 @@ On va dans /etc/apache2/conf-available/roundcube.conf pour lui donner l'adresse 
 
 :::info Norme
 
-Il faut allez dans le dossier de config du service web et creer un fichier `config.\*\*\*`
+Il faut allez dans le dossier de config du service web et creer un fichier `config.***`
 
 :::
 
 
-# 4.2) Configuration d'un client
+##### 4.2) Configuration d'un client
 
 On precise l'adresse du serveur SMTP et le port d'ecoute
 
@@ -642,7 +773,7 @@ On mets `estm.sn` pour le parametre `` dans ``:
 
 Pour roundcube on peut le desactiver en enlevant le `%u` et le `%p`
 
-![Table roundcube](./ad-00008.png)
+![Table roundcube](/img/adminsuper/ad-00008.png)
 
 
 # 4.3) Installer et configuration d'un webmail
@@ -661,13 +792,14 @@ $config['smtp_pass'] = '';
 
 Notre table contact de la base de donnees mysql contient:
 
-![Table roundcube](./ad-00007.png)
+![Table roundcube](/img/adminsuper/ad-00007.png)
 
 :::
 
 On peut inserer un contact directement dans mysql:
 
 ``` jsx title="sql"
+
 mysql> insert into contacts (name, email, firstname, surname, user_id)
  values("Abdoulaye Wade","abdou@estm.sn","Abdoulaye","Wade",2);
 
@@ -679,11 +811,13 @@ Pour la correspondance on mets des lignes de ce format:
 
 
 :::tip Correspondance adresse ip nom
+
 *	Windows
-On edite le fichiers C:\Windows\System32\drivers\etc\host
+On edite le fichiers `C:\Windows\System32\drivers\etc\host`
 
 *	Linux
-On edite le fichiers /etc/hosts
+On edite le fichiers `/etc/hosts`
+
 :::
 
 
@@ -694,20 +828,23 @@ Nous creons une configuration de site virtuel par nom dans apache2:
 
 On va dans : `/etc/apache2/sites-available/`
 
-Ou on creer un fichier site1.conf
+Ou on creer un fichier `site1.conf`
 
 ``` jsx title="bash"
+
 <VirtualHost *:80>
 ServerName mail.estm.sn
 DocumentRoot /var/lib/roundcube/
 DirectoryIndex index.php
 </VirualHost>
+
 ```
 
 
 :::tip Activation
 
 ``` jsx title="bash"
+
 # Activation
 a2ensite site1.conf
 
@@ -723,7 +860,9 @@ systemctl reload apache2
 Apres l'installation de mysql on tape la commande:
 
 ``` jsx title="bash"
+
 mysql_secure_installation
+
 ```
 
 :::
@@ -753,15 +892,15 @@ mysql_secure_installation
 
 
 
-### ***01/09/2022***
+ *01/09/2022*
 
-### Objectif:
+# Objectif:
 
-### 1- Services avances de messagerie
+## 1- Services avances de messagerie
 
-## 1.1: Mettre en place une liste de diffusion
+### 1.1: Mettre en place une liste de diffusion
 
-# Principe:
+#### Principe:
 
 On envoie un mail a un abonnee et le mail est duplique vers 
 
@@ -770,6 +909,7 @@ On edite le fichier `/etc/aliases`
 :::tip Format d'edition
 
 `Nom-liste: email1 email2 email3`
+
 :::
 
 Apres on fait
@@ -781,9 +921,9 @@ newaliases
 ```
 Pour prendre en compte les nouveaux groupes de diffusion creer.
 
-## 1.2: Redirection de mail
+### 1.2: Redirection de mail
 
-# Principe:
+#### Principe:
 
 Tout mail envoye a toto soit rediriger vers bouki
 
@@ -793,13 +933,13 @@ Tout mail envoye a toto soit rediriger vers bouki
 
 On edite la ligne: `max_file_uploads = 20`
 
-![Augemnter la taille](./ad-00006.png)
+![Augemnter la taille](/img/adminsuper/ad-00006.png)
 
 :::
 
-## 1.3: Repondeur automatique ( personnel )
+### 1.3: Repondeur automatique ( personnel )
 
-# Principe:
+#### Principe:
 
 Quand on envoie un message a bouki, un message automatique est renvoyer a l'expediteur.
 
@@ -831,7 +971,7 @@ $ vacation
 -	Personnaliser le message
 
 
-***(07/09/2022)***
+*(07/09/2022)*
 
 ### Inserer un fichier csv dans une base de donnees mysql
 
@@ -842,22 +982,26 @@ SHOW GLOBAL VARIABLES LIKE `'local_infile'`;
 Si sa valeur est 'OFF' on le change pour pouvoir charger des fichiers dans mysql.
 
 ``` jsx title="mysql"
+
 SET GLOBAL local_infile = 1;
+
 ```
 
 `/etc/mysql/mysql.conf.d/mysqld.cnf`
 On ajoute la ligne
 secure-file-priv = ''
 
-![](./ad-00009.png)
+![](/img/adminsuper/ad-00009.png)
 
 On creer un fichier csv: `fiche1` avec comme contenue:
 
 ``` jsx title="csv"
+
 Macky,Sall,13
 Ousmane,Sonko,14
 Abdoulaye,Wade,17
 Abdoulaye,Bathily,15,5
+
 ```
 
 On le copie dans `/var/lib/mysql/`
@@ -876,7 +1020,7 @@ load data local infile './fiche1' into table etudiant fields terminated by ',' (
 ```
 
 
-### Application:
+## Application:
 
 *	Liste d'etudiants dans un fichier excel contenant les numeros de telephones
 *	Mettre un systeme telephonique ou une autorite va enregistrer
@@ -893,7 +1037,7 @@ Avec un script php on peut faire un script pour se connecter a un serveur de tel
 
 ### Planification des taches (at, cron, crontab)
 
-## at
+#### at
 
 Il permet d'executer des taches a une date donnee.
 
@@ -913,18 +1057,21 @@ On peut planifier a 20:29 la creation d'un fichier:
 
 ```
 
-## crontab
+#### crontab
 
 Il permet de planifier des taches routinieres
 
 
 :::danger
+
 Pour qu'un programme en php puisse se connecter a une base de donnees, il faut installer le paquet:
+
 ``` jsx title="bash"
 
 # apt install php-mysql
 
 ```
+
 Et pour utiliser php en ligne de commande on installer:
 
 ``` jsx title="bash"
@@ -956,7 +1103,7 @@ Pour que php se connecte a une base de donnees:
 :::
 
 
-***08/09/2022***
+*08/09/2022*
 
 ### Approfondir le service WEB
 
@@ -972,7 +1119,9 @@ A faire:
 On aura besoin de ces paquets: `python3 mysql-server python-mysqldb `
 
 ``` jsx title="bash"
+
 apt install python3 python-mysql-db mysql-server
+
 ```
 
 :::
@@ -992,11 +1141,11 @@ Les CGI se trouve dans: `/usr/lib/cig-bin/`
 
 :::
 
-## Methode a suivre pour ecrire une application python de connection a mysql
-#	1- Preparer la requete dans une variable.
-#	2- Se connecter a la base.
-#	3- Executer la requete.
-#	4- Eventuellement recuperer les resultats pour exploitation
+### Methode a suivre pour ecrire une application python de connection a mysql
+####	1- Preparer la requete dans une variable.
+####	2- Se connecter a la base.
+####	3- Executer la requete.
+####	4- Eventuellement recuperer les resultats pour exploitation
 
 
 
@@ -1027,14 +1176,14 @@ def inserer(prenom, nom, numcompte, code, montant):
 inserer("Alex", "Kabe", "1001", "1111", "50000")
 
 ```
-# Resultat
+### Resultat
 
 Nous voyons que le script a reussi a executer la requete:
 
-![](./ad-00010.png)
+![](/img/adminsuper/ad-00010.png)
 
 
-## CGI
+#### CGI
 
 Pour faire du CGI il faut activer le CGI: 
 
@@ -1105,10 +1254,9 @@ print('Content-Type:text/plain')
 print() # En HTTP il est obligatoire de laisser une vide entre l'entete et le corps
 print("Les noirs 2.0 respectent maintenant les regles ! Bravo a eux")
 
-
 ```
 
-### Resume
+## Resume
 
 ### Etudie les reseaux
 
@@ -1116,8 +1264,10 @@ print("Les noirs 2.0 respectent maintenant les regles ! Bravo a eux")
 *	Etude des logiciels
 
 ### Logiciels:
-##	Utiliser les emulateurs tel que GNS3 pour la maitrise du fonctionnement des equipements tels routeurs, switches, firewall.
-##	L'utilisation des plateforme de virtualisation (VMWare et Virtualbox) permet de mettre en oeuvre des concepts qu'on trouve tous les jours en entreprise
+
+####	Utiliser les emulateurs tel que GNS3 pour la maitrise du fonctionnement des equipements tels routeurs, switches, firewall.
+
+####	L'utilisation des plateforme de virtualisation (VMWare et Virtualbox) permet de mettre en oeuvre des concepts qu'on trouve tous les jours en entreprise
 
 :::tip Exemple
 
@@ -1130,19 +1280,19 @@ print("Les noirs 2.0 respectent maintenant les regles ! Bravo a eux")
 
 :::
 
-## SGBD
+#### SGBD
 
 *	Journalisation
 *	Commit
 *	Chargement de donnees a partir de fichier
 
-## Serveur web
+#### Serveur web
 
 *	Journal (error.log)
 *	Modules (cgid)
 *	Sites virtuels par nom
 
-## Connexion a distance & tranfere de fichiers
+#### Connexion a distance & tranfere de fichiers
 
 *	SSH
 *	Telnet
@@ -1152,12 +1302,12 @@ print("Les noirs 2.0 respectent maintenant les regles ! Bravo a eux")
 *	vsftpd
 *	Securite de transaction ( Mode texte *Telnet* & Mode message *SSH* )
 
-## Developpement
+#### Developpement
 
 *	Python ( Combiner avec une base de donnees )
 *	PHP ( Combiner avec une base de donnees )
 
-## Administration
+#### Administration
 
 *	Gestion des fautes
 *	Gestion des configurations
@@ -1197,17 +1347,17 @@ sudo sensors-detect
 
 *	Gestion de la securite
 
-### Supervision ( adhoc & SNMP )
+#### Supervision ( adhoc & SNMP )
 
-## Methode adhoc
+##### Methode adhoc
 
 
 
-## Protocole SNMP
+##### Protocole SNMP
 
-### Equipements
+## Equipements
 
-## GNS#
+### GNS3
 
 On installe GNS3
 
@@ -1263,8 +1413,10 @@ Ca ne marche pas. Parce que les messages ARP de diffusion ne rejoignent pas l'au
 
 
 
-### ***(22/09/2022)***
-### TP gestion de la sécurité
+*(22/09/2022)*
+
+## TP gestion de la sécurité
+
 L’objectif de ce TP est d’utiliser les outils pour mettre en œuvre la gestion de la
 securité dans le contexte d’un cours d’administration réseaux.
 On s’appuiera sur les techniques de filtrage des firewall et des outils tels que :
@@ -1272,7 +1424,7 @@ iptables, fail2ban,portsentry,ufw,rkhunter
 
 
 
-## Fail2ban
+### Fail2ban
 
 :::tip Utilisation
 
@@ -1317,11 +1469,10 @@ Sans utiliser `systemctl` ni `service`:
 killall vsftpd
 
 ```
-
 :::
 
 
-## Portsentry
+### Portsentry
 
 :::tip Utilisation
 
@@ -1354,18 +1505,11 @@ apt install qrencode
 ```
 On peut l'utiliser pour cacher un message dans une images:
 
-``` jsx title="bash"\
+``` jsx title="bash"
 
 qrencode -0 image.png "Ceci est un secret"
 
 ```
-
-
-
-
-
-
-
 
 
 
